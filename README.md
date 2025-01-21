@@ -38,7 +38,8 @@
 
 ## 데모
 ![image](https://github.com/user-attachments/assets/4c8f0448-89a3-4082-8fb3-3163614627b9)
-![image](https://github.com/user-attachments/assets/03d19f46-77ad-4a91-9356-bf3cf1152864)
+![image](https://github.com/user-attachments/assets/bcbf2b2c-c8aa-4969-8c62-cca67ef1a7a5)
+
 
 
 ## 향후 개선 사항
