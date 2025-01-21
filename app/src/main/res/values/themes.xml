@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.AppName" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <!-- 버튼 기본 배경색을 흰색으로 설정 -->
+        <item name="colorButtonNormal">#FFFFFF</item>
+        <!-- 기타 필요한 색상 정의 -->
+    </style>
+</resources>
