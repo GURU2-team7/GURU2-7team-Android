@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">GURU2</string>
+    <string name="title_allergy">알레르기 정보</string>
+    <string name="button_dairy">유제품</string>
+    <string name="button_nuts">견과류</string>
+    <string name="button_seafood">해산물</string>
+    <string name="button_add">등록</string>
+    <string name="button_save">저장</string>
+    <string name="edit_hint">입력해 주세요</string>
+</resources>
