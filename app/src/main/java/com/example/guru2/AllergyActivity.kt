@@ -65,21 +65,22 @@ class AllergyActivity : AppCompatActivity() {
         // 기타 항목 등록 버튼
         buttonRegister.setOnClickListener {
             val etcText = editTextEtc.text.toString().trim()
-            if (etcText.isNotEmpty() && !selectedAllergies.contains(etcText)) {
-                selectedAllergies.add(etcText)
-                addChip(etcText)
-                editTextEtc.text.clear()
+            if (etcText.isNotEmpty()) {
+                if (selectedAllergies.contains(etcText)) {
+                    // 이미 등록된 항목
+                    Toast.makeText(this, "이미 등록되었습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 새로 등록
+                    selectedAllergies.add(etcText)
+                    addChip(etcText)
+                    editTextEtc.text.clear()
+                }
             }
         }
 
-        // 저장 버튼
+        // 저장 버튼 (단순 "저장되었습니다." 메시지)
         buttonSave.setOnClickListener {
-            Toast.makeText(this, "저장된 알레르기: $selectedAllergies", Toast.LENGTH_LONG).show()
-
-            // RecipeActivity로 이동
-            val intent = Intent(this, RecipeActivity::class.java)
-            startActivity(intent)
-
+            Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show()
         }
 
         // 뒤로가기 버튼
@@ -90,16 +91,15 @@ class AllergyActivity : AppCompatActivity() {
 
     // 리스트뷰와 토글 설정
     private fun setupListView(toggle: ImageView, listView: ListView, items: List<String>) {
-        // ArrayAdapter 기본으로 사용 (체크박스 UI 필요하면 simple_list_item_multiple_choice)
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
         listView.adapter = adapter
 
-        // 토글 클릭 이벤트
+        // 토글 열고 닫기
         toggle.setOnClickListener {
             if (listView.visibility == View.GONE) {
                 listView.visibility = View.VISIBLE
                 toggle.setImageResource(R.drawable.toggle_open)
-                // 리스트가 실제로 VISIBLE 된 뒤 한 박자 쉬고 높이 재계산
+                // 리스트가 실제로 VISIBLE 상태가 된 뒤 높이 재계산
                 listView.post {
                     setListViewHeightBasedOnChildren(listView)
                 }
@@ -109,14 +109,14 @@ class AllergyActivity : AppCompatActivity() {
             }
         }
 
-
         // 리스트뷰 항목 클릭 이벤트
         listView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem = items[position]
             if (selectedAllergies.contains(selectedItem)) {
-                selectedAllergies.remove(selectedItem)
-                removeChip(selectedItem)
+                // 이미 등록된 항목 -> 중복 알림
+                Toast.makeText(this, "이미 등록되었습니다.", Toast.LENGTH_SHORT).show()
             } else {
+                // 새로 등록
                 selectedAllergies.add(selectedItem)
                 addChip(selectedItem)
             }
@@ -129,11 +129,12 @@ class AllergyActivity : AppCompatActivity() {
             this.text = text
             isCloseIconVisible = true
 
-            // 원하는 흰색 + 회색 테두리
-            chipBackgroundColor = getColorStateList(R.color.white)    // 흰색 배경
-            chipStrokeColor = getColorStateList(R.color.light_gray)     // 원하는 회색
-            chipStrokeWidth = 2f                                      // 테두리 두께 (dp는 px 변환)
+            // 흰색 배경 + 회색 테두리
+            chipBackgroundColor = getColorStateList(R.color.white)
+            chipStrokeColor = getColorStateList(R.color.light_gray)
+            chipStrokeWidth = 2f
 
+            // Chip의 X 아이콘 클릭 -> 제거
             setOnCloseIconClickListener {
                 chipGroupAllergy.removeView(this)
                 selectedAllergies.remove(text)
@@ -141,7 +142,6 @@ class AllergyActivity : AppCompatActivity() {
         }
         chipGroupAllergy.addView(chip)
     }
-
 
     // Chip 제거 메서드
     private fun removeChip(text: String) {
@@ -154,25 +154,20 @@ class AllergyActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * ScrollView 안에서 ListView를 제대로 펼치기 위해
-     * ListView 항목들을 모두 측정해 실제 높이를 layoutParams에 반영하는 함수
-     */
+    // ScrollView 안 ListView 높이 동적 설정
     private fun setListViewHeightBasedOnChildren(listView: ListView) {
         val listAdapter = listView.adapter ?: return
         var totalHeight = 0
         for (i in 0 until listAdapter.count) {
             val listItem = listAdapter.getView(i, null, listView)
-            // 측정 스펙: 너비는 ListView 너비만큼 AT_MOST, 높이는 WRAP_CONTENT
             listItem.measure(
                 View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
             )
             totalHeight += listItem.measuredHeight
         }
-        // 모든 아이템 높이 + 구분선 높이
         val params = listView.layoutParams
-        // dividerHeight * (count - 1) -> 아이템 사이 구분선이 있을 경우
+        // dividerHeight * (count - 1) -> 구분선 높이 고려
         params.height = totalHeight + (listView.dividerHeight * (listAdapter.count - 1))
         listView.layoutParams = params
         listView.requestLayout()
