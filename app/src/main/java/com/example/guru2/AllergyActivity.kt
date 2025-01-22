@@ -75,6 +75,11 @@ class AllergyActivity : AppCompatActivity() {
         // 저장 버튼
         buttonSave.setOnClickListener {
             Toast.makeText(this, "저장된 알레르기: $selectedAllergies", Toast.LENGTH_LONG).show()
+
+            // RecipeActivity로 이동
+            val intent = Intent(this, RecipeActivity::class.java)
+            startActivity(intent)
+
         }
 
         // 뒤로가기 버튼
