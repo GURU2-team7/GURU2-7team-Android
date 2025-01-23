@@ -272,7 +272,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="216dp" />
 
-
         <!-- 체크박스-->
         <FrameLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -285,7 +284,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center"
-                android:layout_marginTop="217dp"> <!-- 부모 레이아웃에서 내려주는 부분 -->
+                android:layout_marginTop="217dp">
+                <!-- 부모 레이아웃에서 내려주는 부분 -->
 
                 <!-- 네모 박스 (뒤로 배치) -->
                 <View
@@ -346,7 +346,6 @@
                 </ScrollView>
             </LinearLayout>
         </FrameLayout>
-
 
 
         <!-- 요리 진행 속도를 선택해 주세요.  -->
