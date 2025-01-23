@@ -62,37 +62,37 @@
 
 
     <TextView
-        android:id="@+id/nameOfDishTb"
+        android:id="@+id/nameOfDishTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/ingredientsTb"
+        android:id="@+id/ingredientsTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/recipeTb"
+        android:id="@+id/recipeTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/calorieTb"
+        android:id="@+id/calorieTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/nutrientTb"
+        android:id="@+id/nutrientTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/cookingTimeTb"
+        android:id="@+id/cookingTimeTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />
