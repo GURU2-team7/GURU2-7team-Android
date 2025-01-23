@@ -26,6 +26,14 @@ class MainActivity : AppCompatActivity() {
         buttonGoToAllergy.setOnClickListener {
             val intent = Intent(this, AllergyActivity::class.java)
             startActivity(intent)
+
+// RecipeActivity로 이동 버튼 이벤트
+        val buttonGoToRecipe: Button = findViewById(R.id.buttonGoToAllergy)
+            buttonGoToRecipe.setOnClickListener {
+                val intent = Intent(this, RecipeActivity::class.java)
+                startActivity(intent)
+            }
+
         }
     }
 }
