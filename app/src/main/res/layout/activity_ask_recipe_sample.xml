@@ -5,8 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AskRecipeActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".AskRecipeActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="request"
+        android:textColor="#FF00FF"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/allergyEdt"
@@ -42,7 +49,54 @@
         android:id="@+id/btnAskRecipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ask recipe"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:text="ask recipe" />
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="response"
+        android:textColor="#FF00FF"
+        android:textSize="20sp" />
+
+
+    <TextView
+        android:id="@+id/nameOfDishTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/ingredientsTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/recipeTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/calorieTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/nutrientTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/cookingTimeTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+
 
 </LinearLayout>
