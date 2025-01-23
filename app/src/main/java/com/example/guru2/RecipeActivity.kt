@@ -28,6 +28,7 @@ class RecipeActivity : AppCompatActivity() {
         val radioButtonGansik: RadioButton = findViewById(R.id.radioButton_gansik)
         val radioButtonDiet: RadioButton = findViewById(R.id.radioButton_diet)
 
+
         // 라디오 버튼 클릭 시 배경 색을 바꾸는 리스너
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             // 모든 버튼의 배경을 초기화
@@ -45,6 +46,7 @@ class RecipeActivity : AppCompatActivity() {
             // 선택된 라디오 버튼의 배경 색을 변경 (상태별 배경 적용)
             val selectedButton: RadioButton = findViewById(checkedId)
             selectedButton.setBackgroundResource(R.drawable.radio_button_selected) // 둥근 배경 적용
+            selectedButton.invalidate()
         }
 
         // 시스템 바 인셋 처리
@@ -55,8 +57,9 @@ class RecipeActivity : AppCompatActivity() {
         }
     }
 
-    // 모든 라디오 버튼의 배경색을 초기화
+
     private fun resetBackgroundColor(vararg buttons: RadioButton) {
-        buttons.forEach { it.setBackgroundColor(Color.TRANSPARENT) }
+        buttons.forEach { it.setBackgroundResource(R.drawable.radio_button_unselected) }
     }
+
 }
