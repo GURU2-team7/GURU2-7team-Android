@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.guru2"
-        minSdk = 35
-        targetSdk = 35
+        minSdk = 34
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -45,4 +44,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.gson)
+    implementation(libs.okhttp.logging)
 }

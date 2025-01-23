@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AskRecipeActivity"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/allergyEdt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="allergy" />
+
+    <EditText
+        android:id="@+id/typeOfCookingEdt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="typeOfCooking" />
+
+    <EditText
+        android:id="@+id/ingredientEdt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ingredients" />
+
+    <EditText
+        android:id="@+id/cookingMethodEdt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="cookingMethod" />
+
+    <EditText
+        android:id="@+id/cookingTimeEdt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="cookingTime" />
+
+    <Button
+        android:id="@+id/btnAskRecipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ask recipe"
+        android:layout_gravity="center" />
+
+</LinearLayout>

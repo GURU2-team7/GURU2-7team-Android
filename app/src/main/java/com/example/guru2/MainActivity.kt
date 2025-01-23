@@ -26,14 +26,20 @@ class MainActivity : AppCompatActivity() {
         buttonGoToAllergy.setOnClickListener {
             val intent = Intent(this, AllergyActivity::class.java)
             startActivity(intent)
+        }
 
-// RecipeActivity로 이동 버튼 이벤트
+        // RecipeActivity로 이동 버튼 이벤트
         val buttonGoToRecipe: Button = findViewById(R.id.buttonGoToAllergy)
-            buttonGoToRecipe.setOnClickListener {
-                val intent = Intent(this, RecipeActivity::class.java)
-                startActivity(intent)
-            }
+        buttonGoToRecipe.setOnClickListener {
+            val intent = Intent(this, RecipeActivity::class.java)
+            startActivity(intent)
+        }
 
+        // 레시피 요청 페이지로 이동 버튼 - sample
+        val buttonGoToAskRecipe: Button = findViewById(R.id.buttonGoToAskRecipe)
+        buttonGoToAskRecipe.setOnClickListener {
+            val intent = Intent(this, AskRecipeActivity::class.java)
+            startActivity(intent)
         }
     }
 }
