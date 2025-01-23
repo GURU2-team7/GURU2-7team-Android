@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="16dp"
+    tools:context=".FridgeActivity">
+
+    <!-- 뒤로가기 아이콘 -->
+    <ImageView
+        android:id="@+id/backArrow"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="Back Arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 상단 제목 (Fridge) -->
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="16dp"
+        android:text="Fridge"
+        android:textColor="#575757"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/backArrow"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 검색/입력 칸 (길게 하나) + 오른쪽에 (⊕) + (돋보기) -->
+    <LinearLayout
+        android:id="@+id/linearSearchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_border_white"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="8dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 검색/입력 (EditText) - 최대 15자 -->
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="재료 입력 (최대 15자)"
+            android:maxLength="15"
+            android:padding="0dp"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textColorHint="#9E9E9E" />
+
+        <!-- 동그라미 플러스(⊕) 버튼: drawable/ic_add 등을 직접 등록 -->
+        <ImageView
+            android:id="@+id/buttonAddItem"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_add"
+            android:contentDescription="Add Item"
+            android:layout_marginStart="4dp"
+            android:padding="8dp" />
+
+        <!-- 돋보기(검색) 버튼: drawable/ic_search 등을 직접 등록 -->
+        <ImageView
+            android:id="@+id/buttonSearch"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_search"
+            android:contentDescription="Search"
+            android:layout_marginStart="4dp"
+            android:padding="8dp" />
+    </LinearLayout>
+
+    <!-- 스크롤 영역(재료 목록) -->
+    <ScrollView
+        android:id="@+id/scrollViewIngredients"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:fadeScrollbars="false"
+        android:scrollbarStyle="outsideOverlay"
+        app:layout_constraintTop_toBottomOf="@id/linearSearchContainer"
+        app:layout_constraintBottom_toTopOf="@+id/bottomDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 재료 아이템 예시 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/rounded_border_white"
+                android:padding="10dp">
+
+                <!-- 삭제(X) 버튼: 우측 상단 작게 -->
+                <ImageView
+                    android:id="@+id/buttonDeleteItem"
+                    android:layout_width="17dp"
+                    android:layout_height="21dp"
+                    android:contentDescription="Delete Item"
+                    android:src="@drawable/ic_closed"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- 재료명 (최대 15자, 아래에 등록일) -->
+
+                <!-- 등록 날짜 (yyyy-mm-dd) -->
+                <TextView
+                    android:id="@+id/textViewIngredientName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:ellipsize="end"
+                    android:maxLength="15"
+                    android:text="감자아아아아아..."
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@id/buttonDeleteItem"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textViewDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="2025-01-19"
+                    android:textColor="#9E9E9E"
+                    android:textSize="13sp"
+                    app:layout_constraintTop_toBottomOf="@id/textViewIngredientName"
+                    app:layout_constraintStart_toStartOf="@id/textViewIngredientName" />
+
+                <!-- 수량(오른쪽: -, 개수, +) -->
+                <LinearLayout
+                    android:id="@+id/quantityLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.939"
+                    app:layout_constraintStart_toEndOf="@id/textViewDate"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.476">
+
+                    <!-- - 버튼 -->
+                    <TextView
+                        android:id="@+id/buttonDecreaseQuantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="-"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                    <!-- 현재 수량 표시 -->
+                    <TextView
+                        android:id="@+id/textViewQuantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="1"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+                    <!-- + 버튼 -->
+                    <TextView
+                        android:id="@+id/buttonIncreaseQuantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- 아이템 예시 끝 -->
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 하단 구분선(얇은 회색 선) -->
+    <View
+        android:id="@+id/bottomDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D0D0D0"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 하단 네비게이션 바(4개의 아이콘) -->
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 홈 아이콘 -->
+        <ImageView
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_home"
+            android:contentDescription="Home"
+            android:padding="8dp"
+            android:scaleType="centerInside" />
+
+        <!-- 레시피 요청 아이콘 -->
+        <ImageView
+            android:id="@+id/navRecipeRequest"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_recipe_request"
+            android:contentDescription="Recipe Request"
+            android:padding="3dp"
+            android:scaleType="centerInside" />
+
+        <!-- 냉장고 아이콘 (현재 페이지) -->
+        <ImageView
+            android:id="@+id/navFridge"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_fridge"
+            android:contentDescription="Fridge"
+            android:padding="8dp"
+            android:scaleType="centerInside" />
+
+        <!-- 레시피 저장 아이콘 -->
+        <ImageView
+            android:id="@+id/navSavedRecipes"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_saved_recipe"
+            android:contentDescription="Saved Recipes"
+            android:padding="8dp"
+            android:scaleType="centerInside" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
