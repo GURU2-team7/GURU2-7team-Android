@@ -26,11 +26,10 @@ class AskRecipeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        // 레시피 api 요청
-        val service = RetrofitClient.getClient().create(RetrofitService::class.java)
-        val btnAskRecipe: Button = findViewById(R.id.btnAskRecipe)
 
-        btnAskRecipe.setOnClickListener {
+        val service = RetrofitClient.getClient().create(RetrofitService::class.java)
+
+        binding.btnAskRecipe.setOnClickListener {
             val request = RecipeReqData(
                 binding.allergyEdt.text.toString(),
                 binding.typeOfCookingEdt.text.toString(),
@@ -39,13 +38,19 @@ class AskRecipeActivity : AppCompatActivity() {
                 binding.cookingTimeEdt.text.toString()
             )
 
+            // recipe api 요청
+            // enqueue 를 통해 비동기 요청을 보냄 (앱이 정지되지 않도록)
             service.askRecipe(request).enqueue(object : Callback<RecipeResData> {
+
+                // 응답이 오면 실행
                 override fun onResponse(call: Call<RecipeResData>, response: Response<RecipeResData>) {
+
+                    // 요청 성공이면
                     if (response.isSuccessful) {
+                        // 응답 본문 가져오기
                         val recipeResponse = response.body()
 
                         if (recipeResponse != null) {
-
                             // 응답 데이터를 변수에 저장
                             val nameOfDish = recipeResponse.nameOfDish
                             val ingredients = recipeResponse.ingredients
@@ -62,19 +67,18 @@ class AskRecipeActivity : AppCompatActivity() {
                             binding.nutrientTv.text = nutrient
                             binding.cookingTimeTv.text = cookingTime
                         }
-                    } else {
+                    } else { // 요청 실패인 경우
                         Log.e("API_ERROR", "Response failed: ${response.errorBody()?.string()}")
-                        val toast = Toast.makeText(this@AskRecipeActivity, "모든 데이터를 응답받지 못했습니다.", Toast.LENGTH_LONG).show()
+                        val toast = Toast.makeText(this@AskRecipeActivity, "요청에 실패했습니다.", Toast.LENGTH_LONG).show()
                     }
                 }
 
+                // 응답이 오지 않으면 실행
                 override fun onFailure(call: Call<RecipeResData>, t: Throwable) {
                     Log.e("API_ERROR", "Network request failed", t)
-                    Toast.makeText(this@AskRecipeActivity, "요청에 실패했습니다.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@AskRecipeActivity, "네트워크 오류가 발생했습니다.", Toast.LENGTH_LONG).show()
                 }
             })
         }
-
     }
-
 }
