@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/rounded_border_white"
+    android:padding="10dp">
+
+    <!-- 삭제(X) 버튼: 우측 상단 작게 -->
+    <ImageView
+        android:id="@+id/buttonDeleteItem"
+        android:layout_width="17dp"
+        android:layout_height="21dp"
+        android:contentDescription="Delete Item"
+        android:src="@drawable/ic_closed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 재료명 (최대 15자, 아래에 등록일) -->
+    <TextView
+        android:id="@+id/textViewIngredientName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLength="15"
+        android:text="감자아아아아아..."
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/buttonDeleteItem"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 등록 날짜 (yyyy-mm-dd) -->
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="2025-01-19"
+        android:textColor="#9E9E9E"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/textViewIngredientName"
+        app:layout_constraintStart_toStartOf="@id/textViewIngredientName" />
+
+    <!-- 수량(오른쪽: -, 개수, +) -->
+    <LinearLayout
+        android:id="@+id/quantityLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.939"
+        app:layout_constraintStart_toEndOf="@id/textViewDate"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.476">
+
+        <!-- - 버튼 -->
+        <TextView
+            android:id="@+id/buttonDecreaseQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:text="-"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <!-- 현재 수량 표시 -->
+        <TextView
+            android:id="@+id/textViewQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:text="1"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <!-- + 버튼 -->
+        <TextView
+            android:id="@+id/buttonIncreaseQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

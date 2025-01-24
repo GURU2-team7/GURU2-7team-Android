@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- http 통신 허용 -->
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,27 +11,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GURU2"
-        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".AskRecipeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RecipeActivity"
-            android:exported="false" /> <!-- AllergyActivity: 액션바 대신 커스텀 레이아웃 사용 -->
+
+        <!-- AllergyActivity: 액션바 대신 커스텀 레이아웃 사용 -->
         <activity
             android:name=".AllergyActivity"
-            android:exported="false"
-            android:theme="@style/Theme.GURU2.NoActionBar" /> <!-- MainActivity: 기본 액션바(타이틀바) 유지 -->
+            android:theme="@style/Theme.GURU2.NoActionBar"
+            android:exported="false" />
+
+        <!-- MainActivity: 기본 액션바(타이틀바) 유지 -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- FridgeActivity 등록 -->
+        <activity
+            android:name=".FridgeActivity"
+            android:theme="@style/Theme.GURU2.NoActionBar"
+            android:exported="true" />
+
     </application>
 
 </manifest>

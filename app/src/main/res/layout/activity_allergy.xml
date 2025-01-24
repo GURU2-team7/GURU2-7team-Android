@@ -28,12 +28,11 @@
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="220dp"
-        android:layout_height="69dp"
-        android:layout_marginStart="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/humanrase"
         android:text="Allergy"
-        android:textColor="#86b01e"
+        android:textColor="#575757"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/backArrow"
@@ -52,7 +51,7 @@
         app:layout_constraintBottom_toTopOf="@id/buttonSave"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="8dp">
 
         <!-- 스크롤 내부 컨테이너 -->
         <LinearLayout
