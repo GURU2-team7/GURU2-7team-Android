@@ -20,4 +20,10 @@
         android:layout_height="wrap_content"
         android:text="Go to FridgeActivity" />
 
+    <Button
+        android:id="@+id/buttonGoToAskRecipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ask Recipe" />
+
 </LinearLayout>
