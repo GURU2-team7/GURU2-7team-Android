@@ -2,6 +2,7 @@ package com.example.guru2
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
@@ -36,6 +37,13 @@ class MainActivity : AppCompatActivity() {
         // FridgeActivity로 이동 버튼 이벤트
         binding.buttonGoToFridge.setOnClickListener {
             val intent = Intent(this, FridgeActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 레시피 요청 페이지로 이동 버튼 - sample
+        val buttonGoToAskRecipe: Button = findViewById(R.id.buttonGoToAskRecipe)
+        binding.buttonGoToAskRecipe.setOnClickListener {
+            val intent = Intent(this, AskRecipeActivity::class.java)
             startActivity(intent)
         }
     }
