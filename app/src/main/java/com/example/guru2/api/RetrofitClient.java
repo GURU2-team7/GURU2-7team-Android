@@ -20,5 +20,4 @@ public class RetrofitClient {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
-
 }
