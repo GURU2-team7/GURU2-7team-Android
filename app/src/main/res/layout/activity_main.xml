@@ -6,16 +6,24 @@
     android:orientation="vertical"
     android:gravity="center">
 
-        <Button
-            android:id="@+id/buttonGoToAllergy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Go to AllergyActivity" />
+    <!-- 기존 AllergyActivity로 이동하는 버튼 -->
+    <Button
+        android:id="@+id/buttonGoToAllergy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to AllergyActivity" />
 
-        <Button
-            android:id="@+id/buttonGoToAskRecipe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ask Recipe" />
+    <!-- 냉장고 등록 화면으로 이동하는 버튼 추가 -->
+    <Button
+        android:id="@+id/buttonGoToFridge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to FridgeActivity" />
+
+    <Button
+        android:id="@+id/buttonGoToAskRecipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ask Recipe" />
 
 </LinearLayout>
