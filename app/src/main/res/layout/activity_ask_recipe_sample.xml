@@ -28,7 +28,7 @@
         android:hint="typeOfCooking" />
 
     <EditText
-        android:id="@+id/ingredientEdt"
+        android:id="@+id/ingredientsEdt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="ingredients" />
