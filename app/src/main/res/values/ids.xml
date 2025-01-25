@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tabHome" type="id" />
+    <item name="tabCook" type="id" />
+    <item name="tabFriger" type="id" />
+    <item name="tabSave" type="id" />
+</resources>
