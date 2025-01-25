@@ -43,7 +43,14 @@ class MainActivity : AppCompatActivity() {
         // 레시피 요청 페이지로 이동 버튼 - sample
         val buttonGoToAskRecipe: Button = findViewById(R.id.buttonGoToAskRecipe)
         binding.buttonGoToAskRecipe.setOnClickListener {
-            val intent = Intent(this, AskRecipeActivity::class.java)
+            val intent = Intent(this, RecipeActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 레시피 요청 페이지로 이동 버튼
+        val buttonGoToAskRecipe1: Button = findViewById(R.id.buttonGoToAskRecipe1)
+        binding.buttonGoToAskRecipe1.setOnClickListener {
+            val intent = Intent(this, recipe1::class.java)
             startActivity(intent)
         }
     }
