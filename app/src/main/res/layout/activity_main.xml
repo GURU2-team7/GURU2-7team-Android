@@ -8,6 +8,7 @@
 
     <!-- 기존 AllergyActivity로 이동하는 버튼 -->
     <Button
+
         android:id="@+id/buttonGoToAllergy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
