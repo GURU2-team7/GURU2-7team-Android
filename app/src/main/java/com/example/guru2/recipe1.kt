@@ -9,12 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class RecipeActivity : AppCompatActivity() {
+class recipe1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_recipe)
-
+        setContentView(R.layout.activity_recipe1)
 
 
         // 시스템 바 인셋 처리
@@ -24,6 +23,7 @@ class RecipeActivity : AppCompatActivity() {
             insets
         }
     }
+
 
 
 

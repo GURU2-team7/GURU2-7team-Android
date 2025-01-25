@@ -29,6 +29,12 @@
         android:layout_height="wrap_content"
         android:text="Ask Recipe" />
 
+    <Button
+        android:id="@+id/buttonGoToAskRecipe1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ask Recipe1" />
+
     <FrameLayout
         android:id="@+id/rootlayout"
         android:layout_width="match_parent"
@@ -42,5 +48,6 @@
         app:itemIconTint="@color/black"
         android:background="@drawable/navi_bottom_border"
         android:id="@+id/bottom_nav" />  <!-- itemIconTint : 버튼 눌렀을 때 색깔 바뀜 -->
+
 
 </LinearLayout>
