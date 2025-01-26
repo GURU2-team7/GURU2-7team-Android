@@ -1,20 +1,17 @@
-package com.example.guru2
+package com.example.guru2.recipe
 
-import android.graphics.Color
 import android.os.Bundle
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.guru2.R
 
-class RecipeActivity : AppCompatActivity() {
+class recipe1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_recipe)
-
+        setContentView(R.layout.activity_recipe1)
 
 
         // 시스템 바 인셋 처리
@@ -24,6 +21,7 @@ class RecipeActivity : AppCompatActivity() {
             insets
         }
     }
+
 
 
 

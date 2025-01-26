@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- http 통신 허용 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,12 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GURU2"
         tools:targetApi="31">
+
         <activity
-            android:name=".recipe1"
+            android:name=".recipe.recipe1"
             android:exported="false" />
         <!-- AllergyActivity: 액션바 대신 커스텀 레이아웃 사용 -->
         <activity
-            android:name=".AllergyActivity"
+            android:name=".allergy.AllergyActivity"
             android:exported="false"
             android:theme="@style/Theme.GURU2.NoActionBar" /> <!-- MainActivity: 기본 액션바(타이틀바) 유지 -->
         <activity
@@ -28,9 +31,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- FridgeActivity 등록 -->
+        </activity>
         <activity
-            android:name=".FridgeActivity"
+            android:name=".fridge.FridgeActivity"
             android:exported="true"
             android:theme="@style/Theme.GURU2.NoActionBar" />
     </application>

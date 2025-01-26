@@ -1,4 +1,4 @@
-package com.example.guru2
+package com.example.guru2.fridge
 
 data class Ingredient(
     var name: String,

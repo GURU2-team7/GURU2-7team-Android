@@ -1,53 +1,22 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
-
-    <!-- 기존 AllergyActivity로 이동하는 버튼 -->
-    <Button
-
-        android:id="@+id/buttonGoToAllergy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go to AllergyActivity" />
-
-    <!-- 냉장고 등록 화면으로 이동하는 버튼 추가 -->
-    <Button
-        android:id="@+id/buttonGoToFridge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go to FridgeActivity" />
-
-    <Button
-        android:id="@+id/buttonGoToAskRecipe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ask Recipe" />
-
-    <Button
-        android:id="@+id/buttonGoToAskRecipe1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ask Recipe1" />
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/rootlayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/bottom_menu"
         app:itemIconTint="@color/black"
-        android:background="@drawable/navi_bottom_border"
-        android:id="@+id/bottom_nav" />  <!-- itemIconTint : 버튼 눌렀을 때 색깔 바뀜 -->
-
-
+        android:background="@drawable/navi_bottom_border"/>
 </LinearLayout>

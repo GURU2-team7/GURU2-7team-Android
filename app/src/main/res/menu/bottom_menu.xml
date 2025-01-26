@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/HomeButton"
+        android:id="@+id/tabHome"
         android:icon="@drawable/jh_navi_home"
         android:title=""/>
 
     <item
-        android:id="@+id/CookButton"
+        android:id="@+id/tabRecipe"
         android:icon="@drawable/jh_navi_cook"
         android:title=""/>
 
     <item
-        android:id="@+id/RefrigeratorButton"
+        android:id="@+id/tabFridge"
         android:icon="@drawable/jh_navi_refrigerator"
         android:title=""/>
 
     <item
-        android:id="@+id/SaveButton"
+        android:id="@+id/tabBookmark"
         android:icon="@drawable/jh_navi_save"
         android:title=""/>
 </menu>
