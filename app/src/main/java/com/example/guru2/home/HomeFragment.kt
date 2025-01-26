@@ -10,7 +10,7 @@ import com.example.guru2.allergy.AllergyActivity
 import com.example.guru2.databinding.FragmentHomeBinding
 import com.example.guru2.fridge.FridgeActivity
 import com.example.guru2.recipe.RecipeActivity
-import com.example.guru2.recipe.recipe1
+import com.example.guru2.recipe.Recipe1
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -41,9 +41,9 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
-        // 레시피 요청 페이지로 이동 버튼 (다른 액티비티)
+        //레시피 요청 페이지로 이동 버튼 (다른 액티비티)
         binding.buttonGoToAskRecipe1.setOnClickListener {
-            val intent = Intent(requireContext(), recipe1::class.java)
+            val intent = Intent(requireContext(), Recipe1::class.java)
             startActivity(intent)
         }
 
