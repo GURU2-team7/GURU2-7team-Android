@@ -34,6 +34,7 @@ class AskRecipeActivity : AppCompatActivity() {
     }
 
     private fun requestRecipe() {
+
         // 사용자 요청 데이터 저장
         val request = RecipeReqData(
             binding.allergyEdt.text.toString(),
