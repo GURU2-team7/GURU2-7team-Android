@@ -1,8 +1,7 @@
-package com.example.guru2
+package com.example.guru2.recipe
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.guru2.api.RecipeReqData

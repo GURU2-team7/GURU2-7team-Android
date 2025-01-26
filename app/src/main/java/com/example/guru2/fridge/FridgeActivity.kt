@@ -1,4 +1,4 @@
-package com.example.guru2
+package com.example.guru2.fridge
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.guru2.databinding.ActivityFridgeBinding
 import com.example.guru2.databinding.ItemIngredientBinding
+import com.example.guru2.db.DatabaseHelper
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Date

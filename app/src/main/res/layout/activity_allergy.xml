@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:background="#FFFFFF"
-    tools:context=".AllergyActivity">
+    tools:context=".allergy.AllergyActivity">
 
     <!-- 뒤로가기 아이콘 (스크롤 바깥) -->
     <ImageView
