@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:padding="16dp"
-    tools:context=".FridgeActivity">
+    tools:context=".fridge.FridgeActivity">
 
     <!-- 뒤로가기 아이콘 -->
     <ImageView
