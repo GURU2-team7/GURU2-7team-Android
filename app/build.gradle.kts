@@ -51,4 +51,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.gson)
     implementation(libs.okhttp.logging)
+    implementation(libs.glide)
+    annotationProcessor(libs.glideCompiler)
+
 }
