@@ -40,6 +40,9 @@
             android:name=".fridge.FridgeActivity"
             android:exported="true"
             android:theme="@style/Theme.GURU2.NoActionBar" />
+        <activity
+            android:name=".timer.TimerActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
