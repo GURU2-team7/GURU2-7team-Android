@@ -9,7 +9,7 @@ import com.example.guru2.home.HomeFragment
 import com.example.guru2.recipe.BookmarkFragment
 import com.example.guru2.recipe.RecipeFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), HomeFragment.OnFragmentChangeListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Fragment 변경 함수 (중복 프래그먼트 방지)
+    // Fragment 변경 함수 (중복 방지)
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val currentFragment = fragmentManager.findFragmentById(R.id.rootlayout)
@@ -48,5 +48,10 @@ class MainActivity : AppCompatActivity() {
         fragmentManager.beginTransaction()
             .replace(R.id.rootlayout, fragment)
             .commitAllowingStateLoss()
+    }
+
+    // HomeFragment에서 호출할 인터페이스 구현
+    override fun onChangeFragment(fragment: Fragment) {
+        replaceFragment(fragment)
     }
 }
