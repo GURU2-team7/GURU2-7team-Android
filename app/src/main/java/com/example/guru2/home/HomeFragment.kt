@@ -87,8 +87,8 @@ class HomeFragment : Fragment() {
 
     private fun navigateToFragment(fragment: Fragment) {
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.rootlayout, fragment) // rootlayout으로 변경
-        transaction.addToBackStack(null) // 뒤로가기 버튼으로 이전 프래그먼트로 돌아가기 가능
+        transaction.replace(R.id.rootlayout, fragment)
+        transaction.addToBackStack(null)
         transaction.commit()
     }
 
