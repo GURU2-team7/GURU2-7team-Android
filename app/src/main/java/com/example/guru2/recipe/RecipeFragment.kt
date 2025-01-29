@@ -1,5 +1,6 @@
 package com.example.guru2.recipe
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,9 @@ import com.example.guru2.databinding.FragmentRecipeBinding
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import com.example.guru2.MainActivity
 import com.example.guru2.R
+import com.example.guru2.home.HomeFragment
 
 
 class RecipeFragment : Fragment(R.layout.fragment_recipe) {
@@ -29,11 +32,12 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         val backArrowButton = view.findViewById<ImageView>(R.id.backArrow)
 
         backArrowButton.setOnClickListener {
-            activity?.onBackPressed()  // 안전하게 Activity의 onBackPressed 호출
-        }
+            // 메인 화면으로 돌아가는 Intent 생성
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)  // MainActivity로 이동
+            activity?.finish()  // 현재 Activity 종료}
 
-
-
+}
     }
 
 }
