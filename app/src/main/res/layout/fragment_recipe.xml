@@ -1,13 +1,426 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".recipe.RecipeFragment">
+    android:id="@+id/main"
+    android:fillViewport="true">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="RECIPE" />
+        android:orientation="vertical">
 
-</LinearLayout>
+
+        <!-- 타이틀 텍스트뷰 -->
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="152dp"
+            android:layout_marginTop="34dp"
+            android:text="Recipe"
+            android:textColor="#575757"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <!-- 뒤로가기 아이콘 -->
+        <ImageView
+            android:id="@+id/backArrow"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="Back Arrow"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="-54dp"
+            />
+
+        <!-- 추천 받고자 하는 레시피의 종류를 선택하시오 -->
+        <TextView
+            android:id="@+id/myTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="34dp"
+            android:text="추천 받고자 하는 레시피의 종류를 선택해 주세요."
+            android:textSize="18sp" />
+
+        <!-- 하나의 RadioGroup으로 묶기 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal">
+
+            <RadioGroup
+                android:id="@+id/radio_group1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <!-- 첫 번째 줄: 한식, 양식, 중식, 일식, 간식 -->
+                <RadioButton
+                    android:id="@+id/radioButton_hansik"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:text="한식"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="-150dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/custom_radio_button"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radioButton_yangshik"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:text="양식"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="-75dp"
+                    android:layout_marginTop="-35dp"
+                    android:background="@drawable/custom_radio_button"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radioButton_joongshik"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:text="중식"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="-35dp"
+                    android:background="@drawable/custom_radio_button"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radioButton_ilshik"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:text="일식"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="75dp"
+                    android:layout_marginTop="-35dp"
+                    android:background="@drawable/custom_radio_button"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radioButton_gansik"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:text="간식"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="150dp"
+                    android:layout_marginTop="-35dp"
+                    android:background="@drawable/custom_radio_button"
+                    />
+
+                <!-- 두 번째 줄: 원팬, 제과제빵, 다이어트 -->
+
+                <RadioButton
+                    android:id="@+id/radioButton_wonpan"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:text="원팬"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="-150dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/custom_radio_button"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radioButton_jaegwajepang"
+                    android:layout_width="110dp"
+                    android:layout_height="35dp"
+                    android:text="제과제빵"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginStart="-60dp"
+                    android:layout_marginTop="-35dp"
+                    android:background="@drawable/custom_radio_button"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radioButton_diet"
+                    android:layout_width="110dp"
+                    android:layout_height="35dp"
+                    android:text="다이어트"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:layout_marginStart="54dp"
+                    android:layout_marginTop="-35dp"
+                    android:padding="5dp"
+                    android:background="@drawable/custom_radio_button"/>
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- 조리 방식을 선택해 주세요 -->
+        <TextView
+            android:id="@+id/myTextView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="조리 방식을 선택해 주세요."
+            android:textSize="18sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="18dp"/>
+
+        <!-- 조리방식 버튼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal">
+
+            <RadioGroup
+                android:id="@+id/radio_group2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/radioButton_microwave"
+                    android:layout_width="90dp"
+                    android:layout_height="35dp"
+                    android:text="전자렌지"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/custom_radio_button"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radioButton_oven"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:text="오븐"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/custom_radio_button" />
+
+                <RadioButton
+                    android:id="@+id/radioButton_airfryer"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:text="에어프라이어"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/custom_radio_button"/>
+
+                <RadioButton
+                    android:id="@+id/radioButton_gas_stove"
+                    android:layout_width="90dp"
+                    android:layout_height="35dp"
+                    android:text="가스렌지"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/custom_radio_button" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- 사용할 재료를 선택해 주세요 -->
+        <TextView
+            android:id="@+id/myTextView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사용할 재료를 선택해 주세요."
+            android:textSize="18sp"
+            android:layout_marginTop="13dp"
+            android:layout_marginStart="18dp"/>
+
+        <!-- 재료 체크 박스 -->
+        <FrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_marginTop="0dp"
+            android:padding="16dp">
+
+            <!-- 네모 박스 (배경) -->
+            <View
+                android:id="@+id/background_box"
+                android:layout_width="match_parent"
+                android:layout_height="199dp"
+                android:background="@drawable/rounded_border_white"
+                android:layout_gravity="center"
+                android:elevation="0dp" />
+
+            <!-- 스크롤 가능한 체크박스 -->
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollbox"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:padding="14dp"
+                android:layout_gravity="center"
+                android:fadeScrollbars="false"
+                android:scrollbars="vertical"
+                android:scrollbarThumbVertical="@android:color/darker_gray"
+                android:scrollbarSize="8dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
+
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="감자" />
+
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="토마토" />
+
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="오징어" />
+
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="고구마" />
+
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="귤" />
+
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="고추장" />
+
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="계란" />
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </FrameLayout>
+
+
+        <!-- 요리 진행 속도를 선택해 주세요.  -->
+        <TextView
+            android:id="@+id/myTextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="요리 진행 속도를 선택해 주세요."
+            android:textSize="18sp"
+            android:layout_marginTop="0dp"
+            android:layout_marginStart="18dp"/>
+
+        <!-- 요리 진행 라디오 버튼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal">
+
+            <RadioGroup
+                android:id="@+id/radio_group3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="16dp">
+
+                <RadioButton
+                    android:id="@+id/radioButton_15"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:text="15분"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/custom_radio_button"
+                    android:layout_marginEnd="8dp"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/radioButton_30"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:text="30분"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/custom_radio_button"
+                    android:layout_marginEnd="8dp"/>
+
+                <RadioButton
+                    android:id="@+id/radioButton_1h"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:text="1시간"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/custom_radio_button"
+                    android:layout_marginEnd="8dp"/>
+
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp"
+            android:layout_marginStart="100dp"
+            android:background="@drawable/more_rounded_border"
+            >
+
+            <Button
+                android:id="@+id/button_submit"
+                android:layout_width="220dp"
+                android:layout_height="60dp"
+                android:background="@android:color/transparent"
+                android:padding="12dp"
+                android:text="SUBMIT"
+                android:textColor="#9E9E9E"
+                android:textSize="22sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

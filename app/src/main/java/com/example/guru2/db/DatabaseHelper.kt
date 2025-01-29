@@ -20,6 +20,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         const val COLUMN_FRIDGE_ID = "fridge_id"
         const val COLUMN_QUANTITY = "quantity"
         const val COLUMN_ADDED_DATE = "added_date"
+
+
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -41,6 +43,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             )
         """
         db?.execSQL(createFridgeTable)
+
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -147,3 +151,5 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         )
     }
 }
+
+

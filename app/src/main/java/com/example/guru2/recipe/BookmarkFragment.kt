@@ -18,6 +18,12 @@ class BookmarkFragment : Fragment() {
     ): View {
         _binding = FragmentBookmarkBinding.inflate(inflater, container, false)
 
+        // ImageView 클릭 리스너 설정
+        val backArrowButton = binding.backArrow  // FragmentBookmarkBinding을 통해 ImageView 찾기
+        backArrowButton.setOnClickListener {
+            activity?.onBackPressed()  // 안전하게 Activity의 onBackPressed 호출
+        }
+
         return binding.root
     }
 
