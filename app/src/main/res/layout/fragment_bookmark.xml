@@ -3,11 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".recipe.BookmarkFragment">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="BOOKMARK" />
+
+    <!-- 버튼 추가 -->
+    <Button
+        android:id="@+id/btnRecipeDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Recipe Detail" />
 
 </LinearLayout>

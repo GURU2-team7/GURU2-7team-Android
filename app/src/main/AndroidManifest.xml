@@ -42,8 +42,9 @@
             android:exported="true"
             android:theme="@style/Theme.GURU2.NoActionBar" />
         <activity
-            android:name=".timer.TimerActivity"
+            android:name=".timer.TimerFragment"
             android:exported="true" />
+
     </application>
 
 </manifest>
