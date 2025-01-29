@@ -16,7 +16,6 @@ import com.example.guru2.allergy.AllergyActivity
 import com.example.guru2.databinding.FragmentHomeBinding
 import com.example.guru2.fridge.FridgeFragment
 import com.example.guru2.recipe.BookmarkFragment
-import com.example.guru2.recipe.Recipe1
 import com.example.guru2.recipe.RecipeFragment
 import java.util.Timer
 import kotlin.concurrent.timer
@@ -84,7 +83,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.buttonGoToAskRecipe.setOnClickListener {
-            navigateToFragment(Recipe1())
+            navigateToFragment(RecipeFragment())
 
         }
 
