@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.example.guru2.MainActivity
+import com.example.guru2.R
 import com.example.guru2.databinding.FragmentBookmarkBinding
 
 class BookmarkFragment : Fragment() {
@@ -21,6 +22,11 @@ class BookmarkFragment : Fragment() {
     ): View {
         _binding = FragmentBookmarkBinding.inflate(inflater, container, false)
 
+        // "레시피 상세 보기" 버튼 클릭 시 RecipeDetailFragment로 이동
+        binding.buttonRecipeDetail.setOnClickListener {
+            navigateToFragment(RecipedetailFragment())
+        }
+
         // ImageView 클릭 리스너 설정
         val backArrowButton = binding.backArrow  // FragmentBookmarkBinding을 통해 ImageView 찾기
         backArrowButton.setOnClickListener {
@@ -32,7 +38,12 @@ class BookmarkFragment : Fragment() {
 
         return binding.root
     }
-
+    private fun navigateToFragment(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.rootlayout, fragment)
+        transaction.addToBackStack(null)  // 뒤로 가기 가능하도록 백스택 추가
+        transaction.commit()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

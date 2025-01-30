@@ -1,5 +1,6 @@
 package com.example.guru2.recipe
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.LinearLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.example.guru2.MainActivity
 import com.example.guru2.R
 import com.example.guru2.databinding.FragmentRecipedetailBinding
 
@@ -22,37 +24,21 @@ class RecipedetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRecipedetailBinding.inflate(inflater, container, false)
+
+        // ImageView 클릭 리스너 설정
+        val backArrowButton1 =
+            binding.backArrowToBookmark  // FragmentBookmarkBinding을 통해 ImageView 찾기
+        backArrowButton1.setOnClickListener {
+            // 메인 화면으로 돌아가는 Intent 생성
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)  // MainActivity로 이동
+            activity?.finish()  // 현재 Activity 종료
+        }
+
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        // 뒤로가기 버튼 클릭 이벤트 설정
-        binding.backArrowToBookmark.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack() // 뒤로 가기
-        }
-
-        // DrawerLayout을 열기 위한 버튼
-        binding.openDropDown.setOnClickListener {
-            binding.drawerLayout.openDrawer(GravityCompat.START)
-        }
-
-        // 닫기 버튼
-        binding.dropdownX.setOnClickListener {
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-        }
-
-        // 북마크 버튼
-        binding.dropdownBookmark.setOnClickListener {
-            // 추가 동작 가능
-        }
-
-        // 타이머 버튼
-        binding.dropdownTimer.setOnClickListener {
-            // 추가 동작 가능
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

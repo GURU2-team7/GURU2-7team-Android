@@ -10,14 +10,12 @@
     android:background="#FFFFFF">
 
     <!-- 뒤로가기 아이콘 (스크롤 바깥) -->
-    <ImageButton
+    <ImageView
         android:id="@+id/backArrowToBookmark"
-        android:clickable="true"
-        android:enabled="true"
         android:layout_width="30dp"
-        android:layout_height="32dp"
+        android:layout_height="30dp"
         android:src="@drawable/ic_arrow_back"
-        android:contentDescription="Back Arrow"
+        android:contentDescription="Back Arrow to Bookmark"
         android:background="@android:color/white"
         android:layout_marginStart="24dp"
         android:layout_marginTop="44dp"
