@@ -10,8 +10,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "FridgeApp.db"
+
         // 새 테이블 추가로 DB 구조가 변경되었으므로 1 → 2로 버전 업
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
 
         // 기존 테이블(Ingredients)
         const val TABLE_INGREDIENTS = "Ingredients"
@@ -28,6 +29,18 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         const val TABLE_ALLERGIES = "Allergies"
         const val COLUMN_ALLERGY_ID = "allergy_id"
         const val COLUMN_ALLERGY_NAME = "allergy_name"
+
+        //레시피 추가 테이블
+        const val TABLE_RECIPE = "Recipe"
+        const val COLUMN_RECIPE_ID = "recipe_id"
+        const val COLUMN_RECIPE_NAME = "recipe_name"
+        const val COLUMN_RECIPE_ADDED_DATE = "recipe_added_date"
+
+        const val TABLE_RECIPE_DETAILS = "RecipeDetails"
+        const val COLUMN_RECIPE_COOKINGTIME = "recipe_cooking_time"
+        const val COLUMN_RECIPE_INSTRUCTIONS = "recipe_instructions"
+        const val COLUMN_RECIPE_CALORIES = "recipe_calories"
+        const val COLUMN_RECIPE_NUTRITION_FACTS = "recipe_nutrition_facts"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -58,6 +71,44 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             )
         """
         db?.execSQL(createAllergiesTable)
+
+        //레시피 추가
+        val createRecipeTable = """
+            CREATE TABLE ${TABLE_RECIPE} (
+            ${COLUMN_RECIPE_ID} INTEGER PRIMARY KEY AUTOINCREMENT,
+            ${COLUMN_RECIPE_NAME} TEXT NOT NULL,
+            ${COLUMN_RECIPE_ADDED_DATE} DATE DEFAULT (DATE('now'))
+            )
+        """
+        db?.execSQL(createRecipeTable)
+
+        val createRecipeDetailTable = """
+            CREATE TABLE ${TABLE_RECIPE_DETAILS} (
+            ${COLUMN_RECIPE_ID} INTEGER,
+            ${COLUMN_RECIPE_COOKINGTIME} INTEGER,
+            ${COLUMN_RECIPE_INSTRUCTIONS} TEXT,
+            ${COLUMN_RECIPE_CALORIES} INTEGER,
+            ${COLUMN_RECIPE_NUTRITION_FACTS} TEXT,
+            FOREIGN KEY(${COLUMN_RECIPE_ID}) REFERENCES ${TABLE_RECIPE}(${COLUMN_RECIPE_ID})
+            )
+        """
+        db?.execSQL(createRecipeDetailTable)
+
+        // 예시 데이터 삽입 ---> 여기 꼭빼기!!!!!!
+        val insertRecipe = """
+        INSERT INTO $TABLE_RECIPE ($COLUMN_RECIPE_NAME)
+        VALUES ('Tomato Salad'), ('Cucumber Soup')
+    """
+        db?.execSQL(insertRecipe)
+
+        val insertRecipeDetails = """
+        INSERT INTO $TABLE_RECIPE_DETAILS ($COLUMN_RECIPE_ID, $COLUMN_RECIPE_COOKINGTIME, $COLUMN_RECIPE_INSTRUCTIONS, $COLUMN_RECIPE_CALORIES, $COLUMN_RECIPE_NUTRITION_FACTS)
+        VALUES (1, 15, 'Mix all ingredients and serve', 200, 'Vitamins, Antioxidants'),
+               (2, 20, 'Boil and blend cucumber', 150, 'Vitamin C, Potassium')
+    """
+        db?.execSQL(insertRecipeDetails)
+
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -65,8 +116,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_FRIDGE")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_INGREDIENTS")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_ALLERGIES")
+        db?.execSQL("DROP TABLE IF EXISTS $TABLE_RECIPE")
+        db?.execSQL("DROP TABLE IF EXISTS $TABLE_RECIPE_DETAILS")
         onCreate(db)
     }
+
 
     // -------------------------- 냉장고 관련 메서드 --------------------------
     fun insertIngredient(name: String): Long {
@@ -74,7 +128,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val values = ContentValues().apply {
             put(COLUMN_INGREDIENT_NAME, name)
         }
-        return db.insertWithOnConflict(TABLE_INGREDIENTS, null, values, SQLiteDatabase.CONFLICT_IGNORE)
+        return db.insertWithOnConflict(
+            TABLE_INGREDIENTS,
+            null,
+            values,
+            SQLiteDatabase.CONFLICT_IGNORE
+        )
     }
 
     fun addToFridge(ingredientName: String, quantity: String): Long {
@@ -177,7 +236,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val values = ContentValues().apply {
             put(COLUMN_ALLERGY_NAME, allergyName)
         }
-        return db.insertWithOnConflict(TABLE_ALLERGIES, null, values, SQLiteDatabase.CONFLICT_IGNORE)
+        return db.insertWithOnConflict(
+            TABLE_ALLERGIES,
+            null,
+            values,
+            SQLiteDatabase.CONFLICT_IGNORE
+        )
     }
 
     /**
@@ -190,7 +254,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         if (cursor.moveToFirst()) {
             do {
-                val allergyName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ALLERGY_NAME))
+                val allergyName =
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ALLERGY_NAME))
                 allergies.add(allergyName)
             } while (cursor.moveToNext())
         }
@@ -209,4 +274,36 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             arrayOf(allergyName)
         )
     }
+
+
+    // -------------------------- 레시피 상세 등록 관련 메서드 --------------------------
+    //데이터 추가 확인 코드
+    fun addRecipe(recipeName: String): Long {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_RECIPE_NAME, recipeName)
+        }
+        return db.insert(TABLE_RECIPE, null, values)
+    }
+
+    fun addRecipeDetails(
+        recipeId: Long,
+        cookingTime: Int,
+        instructions: String,
+        calories: Int,
+        nutritionFacts: String
+    ): Long {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_RECIPE_ID, recipeId)
+            put(COLUMN_RECIPE_COOKINGTIME, cookingTime)
+            put(COLUMN_RECIPE_INSTRUCTIONS, instructions)
+            put(COLUMN_RECIPE_CALORIES, calories)
+            put(COLUMN_RECIPE_NUTRITION_FACTS, nutritionFacts)
+        }
+        return db.insert(TABLE_RECIPE_DETAILS, null, values)
+    }
+
+
+
 }

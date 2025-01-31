@@ -166,7 +166,7 @@ class FridgeFragment : Fragment() {
         _binding = null
     }
 
-    //여기 추가함
+    //여기 추가 레시피 재료 데이터 recipe 요청 페이지로 전달
     private fun openRecipeFragment() {
         val ingredients = ingredientList.map { it.name }.toTypedArray() // 재료 이름만 배열로 변환
         val bundle = Bundle().apply {
