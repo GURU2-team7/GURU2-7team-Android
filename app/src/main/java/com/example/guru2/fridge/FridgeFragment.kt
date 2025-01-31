@@ -1,6 +1,7 @@
 package com.example.guru2.fridge
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.guru2.databinding.FragmentFridgeBinding
 import com.example.guru2.databinding.ItemIngredientBinding
 import com.example.guru2.db.DatabaseHelper
+import com.example.guru2.recipe.RecipeFragment
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Date
@@ -71,7 +73,8 @@ class FridgeFragment : Fragment() {
                         addItemView(binding.linearLayoutList, ingredient)
                         binding.editTextSearch.text.clear()
                     } else {
-                        Toast.makeText(requireContext(), "재료를 추가하는 데 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "재료를 추가하는 데 실패했습니다.", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             } else {
@@ -105,7 +108,8 @@ class FridgeFragment : Fragment() {
      * 한 개의 재료(Ingredient)에 대한 View를 생성하여 parent에 추가
      */
     private fun addItemView(parent: LinearLayout, ingredient: Ingredient) {
-        val itemBinding = ItemIngredientBinding.inflate(LayoutInflater.from(requireContext()), parent, false)
+        val itemBinding =
+            ItemIngredientBinding.inflate(LayoutInflater.from(requireContext()), parent, false)
 
         // 재료 이름 15자 초과 시 "..."로 생략
         val truncatedName = if (ingredient.name.length > 15) {
@@ -160,5 +164,18 @@ class FridgeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    //여기 추가함
+    private fun openRecipeFragment() {
+        val ingredients = ingredientList.map { it.name }.toTypedArray() // 재료 이름만 배열로 변환
+        val bundle = Bundle().apply {
+            putStringArray("ingredientList", ingredients) // Bundle에 저장
+        }
+
+        val recipeFragment = RecipeFragment().apply {
+            arguments = bundle // RecipeFragment에 데이터 전달
+        }
+
     }
 }
