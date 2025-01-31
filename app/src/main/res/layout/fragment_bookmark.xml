@@ -9,6 +9,18 @@
     android:padding="16dp"
     tools:context=".SavedRecipeActivity">
 
+
+    <Button
+        android:id="@+id/buttonRecipeDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="레시피 상세 보기"
+        android:layout_marginStart="160dp"
+        android:textColor="@android:color/white"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <!-- 뒤로가기 아이콘 -->
     <ImageView
         android:id="@+id/backArrow"

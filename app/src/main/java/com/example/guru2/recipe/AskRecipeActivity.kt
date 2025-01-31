@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.guru2.R
 import com.example.guru2.api.RecipeReqData
 import com.example.guru2.api.RecipeResData
 import com.example.guru2.api.RetrofitClient
@@ -36,9 +35,6 @@ class AskRecipeActivity : AppCompatActivity() {
 
         // 전달된 값 로그로 확인
         Log.d("AskRecipeActivity", "선택된 요리: $selectedCuisine, 방식: $selectedCookingWay, 시간: $selectedTime, 재료: $selectedIngredients")
-
-        // 필요한 값을 화면에 표시하거나 처리하는 부분 추가 가능
-        // 예: binding.selectedCuisineTv.text = selectedCuisine
 
         // 각 EditText에 값 채우기
         binding.ingredientsEdt.setText(selectedIngredients)
