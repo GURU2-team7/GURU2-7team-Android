@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.guru2.R
 import com.example.guru2.api.RecipeReqData
 import com.example.guru2.api.RecipeResData
 import com.example.guru2.api.RetrofitClient
@@ -27,23 +28,48 @@ class AskRecipeActivity : AppCompatActivity() {
         binding = ActivityAskRecipeSampleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // RecipeFragment에서 전달된 값 받기
+        val selectedCuisine = intent.getStringExtra("cuisine") ?: "없음"
+        val selectedCookingWay = intent.getStringExtra("cookingWay") ?: "없음"
+        val selectedTime = intent.getStringExtra("time") ?: "없음"
+        val selectedIngredients = intent.getStringExtra("ingredients") ?: "없음"
+
+        // 전달된 값 로그로 확인
+        Log.d("AskRecipeActivity", "선택된 요리: $selectedCuisine, 방식: $selectedCookingWay, 시간: $selectedTime, 재료: $selectedIngredients")
+
+        // 필요한 값을 화면에 표시하거나 처리하는 부분 추가 가능
+        // 예: binding.selectedCuisineTv.text = selectedCuisine
+
+        // 각 EditText에 값 채우기
+        binding.ingredientsEdt.setText(selectedIngredients)
+        binding.typeOfCookingEdt.setText(selectedCuisine)
+        binding.cookingMethodEdt.setText(selectedCookingWay)
+        binding.cookingTimeEdt.setText(selectedTime)
+
+        // 버튼 클릭 시 레시피 요청
         binding.btnAskRecipe.setOnClickListener {
-            requestRecipe()
+            requestRecipe(selectedCuisine, selectedCookingWay, selectedTime, selectedIngredients)
         }
     }
 
-    private fun requestRecipe() {
+    private fun requestRecipe(cuisine: String, way: String, time: String, ingredients : String) {
 
-        // 사용자 요청 데이터 저장
+        //사용자 요청
         val request = RecipeReqData(
-            binding.allergyEdt.text.toString(),
-            binding.typeOfCookingEdt.text.toString(),
-            binding.ingredientsEdt.text.toString(),
-            binding.cookingMethodEdt.text.toString(),
-            binding.cookingTimeEdt.text.toString()
+            binding.allergyEdt.text.toString(),  // 알레르기 정보 (EditText에서 가져오기)
+            cuisine,  // 요리 종류
+            ingredients,  // 선택된 재료
+            way,  // 요리 방식
+            time  // 요리 시간
         )
 
+        Toast.makeText(this, "레시피 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
+
+        // 요청 로그 출력
+        Log.d("AskRecipeActivity", "요청 데이터: $request")
+
         // recipe api 요청
+
         // enqueue 를 통해 비동기 요청을 보냄 (앱이 정지되지 않도록)
         service.askRecipe(request).enqueue(object : Callback<RecipeResData> {
             // 응답이 오면 실행

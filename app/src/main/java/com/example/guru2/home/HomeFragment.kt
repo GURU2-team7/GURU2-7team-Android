@@ -82,6 +82,11 @@ class HomeFragment : Fragment() {
             navigateToFragment(BookmarkFragment())
         }
 
+        binding.buttonGoToAskRecipe.setOnClickListener {
+            navigateToFragment(RecipeFragment())
+
+        }
+
         return binding.root
     }
 
