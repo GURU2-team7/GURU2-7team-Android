@@ -12,6 +12,7 @@ import com.example.guru2.databinding.ActivityAskRecipeSampleBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.example.guru2.db.DatabaseHelper
 
 class AskRecipeActivity : AppCompatActivity() {
     // binding 객체 선언
@@ -21,11 +22,27 @@ class AskRecipeActivity : AppCompatActivity() {
         RetrofitClient.getClient().create(RetrofitService::class.java)
     }
 
+    // DBHelper 객체 추가
+    private lateinit var dbHelper: DatabaseHelper
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // viewBinding 적용
         binding = ActivityAskRecipeSampleBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // DBHelper 객체 초기화
+        dbHelper = DatabaseHelper(this)
+
+        // 1. DB에서 알레르기 데이터 가져오기
+        val savedList = dbHelper.getAllAllergies() // DB에서 알레르기 데이터 가져오기
+
+        // 2. 알레르기 데이터를 쉼표로 구분된 문자열로 변환
+        val allergiesData = savedList.joinToString(", ")
+
+        // 3. 알레르기 데이터를 EditText에 채우기
+        binding.allergyEdt.setText(allergiesData)
 
         // RecipeFragment에서 전달된 값 받기
         val selectedCuisine = intent.getStringExtra("cuisine") ?: "없음"

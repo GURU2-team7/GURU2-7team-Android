@@ -265,7 +265,8 @@
             android:layout_width="match_parent"
             android:layout_height="230dp"
             android:layout_marginTop="0dp"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:id="@+id/fragment_container">
 
             <!-- 네모 박스 (배경) -->
             <View

@@ -1,5 +1,6 @@
 package com.example.guru2.allergy
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.guru2.R
 import com.example.guru2.databinding.ActivityAllergyBinding
 import com.example.guru2.db.DatabaseHelper
+import com.example.guru2.recipe.AskRecipeActivity
 import com.google.android.material.chip.Chip
 
 class AllergyActivity : AppCompatActivity() {
