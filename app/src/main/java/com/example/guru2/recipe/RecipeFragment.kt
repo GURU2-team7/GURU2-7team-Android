@@ -3,6 +3,7 @@ package com.example.guru2.recipe
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import com.example.guru2.home.HomeFragment
 class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     private var _binding: FragmentRecipeBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var radioGroupCuisine: RadioGroup
     private lateinit var radioGroupCookingWay: RadioGroup
     private lateinit var radioGroupTime: RadioGroup
@@ -34,7 +36,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         radioGroupCookingWay = view.findViewById(R.id.radio_group2)
         radioGroupTime = view.findViewById(R.id.radio_group3)
         buttonSubmit = view.findViewById(R.id.button_submit)
-        checkBoxIngredientOption = view.findViewById(R.id.checkbox_ingredient)  // XML 체크박스 ID 연결
+        checkBoxIngredientOption = view.findViewById(R.id.checkbox_ingredient) // XML 체크박스 ID 연결
 
         buttonSubmit.setOnClickListener {
             sendSelectedOptions()
@@ -49,7 +51,29 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             activity?.finish()  // 현재 Activity 종료}
         }
 
+        // 재료 목록을 arguments에서 가져오기
+        val ingredients = arguments?.getStringArrayList("ingredients")
+        Log.d("RecipeFragment", "받은 재료 목록: $ingredients")
 
+        if (ingredients != null) {
+            // 재료 목록을 사용하여 동적으로 체크박스 생성
+            createCheckboxes(ingredients)
+        } else {
+            Toast.makeText(requireContext(), "재료 목록이 없습니다.", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun createCheckboxes(ingredients: List<String>) {
+        // LinearLayout에 체크박스 추가
+        for (ingredient in ingredients) {
+            val checkBox = CheckBox(requireContext())
+            checkBox.text = ingredient
+            checkBox.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            checkBoxIngredientOption.addView(checkBox)
+        }
     }
 
     private fun sendSelectedOptions() {
@@ -95,6 +119,8 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             "선택 안됨"
         }
     }
+
+
 
 
 

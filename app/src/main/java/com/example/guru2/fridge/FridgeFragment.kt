@@ -1,6 +1,7 @@
 package com.example.guru2.fridge
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,10 @@ import com.example.guru2.db.DatabaseHelper
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Date
+import android.widget.CheckBox
+import com.example.guru2.R
+import com.example.guru2.recipe.RecipeFragment // RecipeFragment의 패키지 경로에 맞게 수정하세요
+
 
 class FridgeFragment : Fragment() {
 
@@ -40,6 +45,8 @@ class FridgeFragment : Fragment() {
         setupButtons()
 
         return binding.root
+
+
     }
 
     private fun setupButtons() {
@@ -126,6 +133,7 @@ class FridgeFragment : Fragment() {
         }
     }
 
+
     private fun getCurrentDate(): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return sdf.format(Date())
@@ -135,4 +143,33 @@ class FridgeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    // FridgeFragment에서 재료 추가 후, RecipeFragment로 이동할 때
+    private fun openRecipeFragment() {
+        val recipeFragment = RecipeFragment()
+
+        // 냉장고 재료 목록을 RecipeFragment로 전달
+        val ingredientNames = ingredientList.map { it.name }  // 이름만 추출
+
+        Log.d("FridgeFragment", "현재 ingredientList: $ingredientList")
+        Log.d("FridgeFragment", "전달할 재료 목록: $ingredientNames")
+
+
+        // Bundle을 통해 전달
+        val bundle = Bundle().apply {
+            putStringArrayList("ingredients", ArrayList(ingredientNames))  // 이름만 전달
+        }
+        recipeFragment.arguments = bundle
+        Log.d("RecipeFragment", "전달된 재료 목록: $ingredientNames")
+
+
+
+
+        // FragmentTransaction을 사용하여 RecipeFragment로 이동
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.checkbox_ingredient, recipeFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
 }

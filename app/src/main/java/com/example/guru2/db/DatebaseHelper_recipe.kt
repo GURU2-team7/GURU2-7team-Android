@@ -25,9 +25,12 @@ class DatabaseHelper_recipe(context: Context) : SQLiteOpenHelper(context, DATABA
         const val COLUMN_RECIPE_NUTRITION_FACTS = "recipe_nutrition_facts"
     }
 
+    override fun onConfigure(db: SQLiteDatabase?) {
+        super.onConfigure(db)
+        db?.setForeignKeyConstraintsEnabled(true) // 외래 키 활성화
+    }
+
     override fun onCreate(db: SQLiteDatabase?) {
-        // 외래 키 제약 활성화
-        db?.execSQL("PRAGMA foreign_keys = ON;")
 
         //레시피 추가
         val createRecipeTable = """
@@ -56,6 +59,28 @@ class DatabaseHelper_recipe(context: Context) : SQLiteOpenHelper(context, DATABA
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_RECIPE")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_RECIPE_DETAILS")
         onCreate(db)
+    }
+
+
+    //데이터 추가 확인 코드
+    fun addRecipe(recipeName: String): Long {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_RECIPE_NAME, recipeName)
+        }
+        return db.insert(TABLE_RECIPE, null, values)
+    }
+
+    fun addRecipeDetails(recipeId: Long, cookingTime: Int, instructions: String, calories: Int, nutritionFacts: String): Long {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_RECIPE_ID, recipeId)
+            put(COLUMN_RECIPE_COOKINGTIME, cookingTime)
+            put(COLUMN_RECIPE_INSTRUCTIONS, instructions)
+            put(COLUMN_RECIPE_CALORIES, calories)
+            put(COLUMN_RECIPE_NUTRITION_FACTS, nutritionFacts)
+        }
+        return db.insert(TABLE_RECIPE_DETAILS, null, values)
     }
 
 }
