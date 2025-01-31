@@ -1,0 +1,8 @@
+<!-- res/drawable/bookmark_button_selector.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 버튼 클릭 상태 -->
+    <item android:state_pressed="true" android:drawable="@drawable/dropdown_bookmark_unfilled"/> <!-- 하얀색 -->
+
+    <!-- 기본 상태 -->
+    <item android:drawable="@drawable/dropdown_bookmark_filled"/> <!-- 검정색 -->
+</selector>
