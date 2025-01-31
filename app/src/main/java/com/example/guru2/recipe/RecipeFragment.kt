@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.example.guru2.MainActivity
 import com.example.guru2.R
+import com.example.guru2.db.DatabaseHelper
 import com.example.guru2.home.HomeFragment
 
 
@@ -25,9 +26,13 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     private lateinit var radioGroupTime: RadioGroup
     private lateinit var checkBoxIngredientOption: LinearLayout  // 체크박스 변수 추가
     private lateinit var buttonSubmit: Button
+    private lateinit var dbHelper: DatabaseHelper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentRecipeBinding.bind(view)
+
+        dbHelper = DatabaseHelper(requireContext())
 
         // XML에서 라디오 그룹과 버튼 연결
         radioGroupCuisine = view.findViewById(R.id.radio_group1)
@@ -35,6 +40,13 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         radioGroupTime = view.findViewById(R.id.radio_group3)
         buttonSubmit = view.findViewById(R.id.button_submit)
         checkBoxIngredientOption = view.findViewById(R.id.checkbox_ingredient)  // XML 체크박스 ID 연결
+
+        checkBoxIngredientOption = view.findViewById(R.id.checkbox_ingredient)  // 체크박스 레이아웃
+
+        // 전달받은 재료 리스트 가져오기
+        val ingredients = arguments?.getStringArray("ingredientList") ?: emptyArray()
+
+
 
         buttonSubmit.setOnClickListener {
             sendSelectedOptions()
@@ -48,6 +60,8 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             startActivity(intent)  // MainActivity로 이동
             activity?.finish()  // 현재 Activity 종료}
         }
+
+        loadIngredientsFromFridge() // 냉장고 DB에서 재료 가져와 체크박스 추가
     }
 
     private fun sendSelectedOptions() {
@@ -96,6 +110,18 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
 
 
+    private fun loadIngredientsFromFridge() {
+        val ingredientList = dbHelper.getAllFridgeItems() // 냉장고 DB에서 모든 재료 가져오기
+        checkBoxIngredientOption.removeAllViews() // 기존 체크박스 초기화
+
+        for (ingredient in ingredientList) {
+            val checkBox = CheckBox(requireContext()).apply {
+                text = ingredient.name  // 체크박스의 텍스트를 재료명으로 설정
+                textSize = 16f
+            }
+            checkBoxIngredientOption.addView(checkBox) // LinearLayout에 추가
+        }
+    }
 }
 
 
