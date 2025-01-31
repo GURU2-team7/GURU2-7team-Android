@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private final static String BASE_URL = "http://---:8080";
+    private final static String BASE_URL = "http://52.79.253.182:8080";
 
     public static RetrofitService getApiService() {
         return getClient().create(RetrofitService.class);
