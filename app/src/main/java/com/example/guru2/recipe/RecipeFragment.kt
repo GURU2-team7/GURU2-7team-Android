@@ -48,8 +48,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             startActivity(intent)  // MainActivity로 이동
             activity?.finish()  // 현재 Activity 종료}
         }
-
-
     }
 
     private fun sendSelectedOptions() {
