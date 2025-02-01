@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".timer.TimerFragment"
+            android:name=".timer.TimerActivity"
             android:exported="true" />
 
     </application>

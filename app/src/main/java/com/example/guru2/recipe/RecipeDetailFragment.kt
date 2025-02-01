@@ -1,5 +1,6 @@
 package com.example.guru2.recipe
 
+
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import com.example.guru2.R
 import com.example.guru2.databinding.FragmentRecipeDetailBinding
 import com.example.guru2.db.DatabaseHelper
+import com.example.guru2.timer.TimerActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -102,11 +104,20 @@ class RecipeDetailFragment : Fragment() {
             }
         }
 
-        // (D) 타이머 버튼
         dropdownTimer.setOnClickListener {
-            Toast.makeText(requireContext(), "타이머 페이지로 이동(미구현)", Toast.LENGTH_SHORT).show()
-            // startActivity(Intent(requireContext(), TimerActivity::class.java)) etc.
+            // 저장된 레시피의 cookingTime 변수 (예: "20분")를 이용
+            val cookingTimeStr = cookingTime.replace("[^\\d]".toRegex(), "")
+            // 숫자 변환 실패 시 기본값 15분 사용
+            val cookingTimeMinutes = cookingTimeStr.toLongOrNull() ?: 15L
+            // 밀리초로 변환
+            val cookingTimeMillis = cookingTimeMinutes * 60 * 1000
+
+            // TimerFragment로 Intent를 통해 데이터 전달
+            val intent = Intent(requireContext(), TimerActivity::class.java)
+            intent.putExtra("timeInMillis", cookingTimeMillis)
+            startActivity(intent)
         }
+
 
         // 2) UI에 값 표시
         // EditText(제목) - 수정 가능
