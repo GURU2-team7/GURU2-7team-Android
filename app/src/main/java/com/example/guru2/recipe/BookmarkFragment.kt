@@ -31,7 +31,7 @@ class BookmarkFragment : Fragment() {
 
         // "레시피 상세 보기" 버튼 클릭 시 RecipeDetailFragment로 이동
         binding.buttonRecipeDetail.setOnClickListener {
-            navigateToFragment(RecipedetailFragment())
+            navigateToFragment(RecipeDetailFragment())
         }
 
         // ImageView 클릭 리스너 설정

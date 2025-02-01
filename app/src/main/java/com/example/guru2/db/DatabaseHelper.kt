@@ -10,9 +10,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "FridgeApp.db"
-
-        // 새 테이블 추가로 DB 구조가 변경되었으므로 1 → 2로 버전 업
-        private const val DATABASE_VERSION = 3
+        // 버전 2 → 4 (예시): 새로 saveDate 컬럼 추가 및 update 메서드 반영
+        private const val DATABASE_VERSION = 4
 
         // 기존 테이블(Ingredients)
         const val TABLE_INGREDIENTS = "Ingredients"
@@ -30,28 +29,29 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         const val COLUMN_ALLERGY_ID = "allergy_id"
         const val COLUMN_ALLERGY_NAME = "allergy_name"
 
-        //레시피 추가 테이블
-        const val TABLE_RECIPE = "Recipe"
-        const val COLUMN_RECIPE_ID = "recipe_id"
-        const val COLUMN_RECIPE_NAME = "recipe_name"
-        const val COLUMN_RECIPE_ADDED_DATE = "recipe_added_date"
-
-        const val TABLE_RECIPE_DETAILS = "RecipeDetails"
-        const val COLUMN_RECIPE_COOKINGTIME = "recipe_cooking_time"
-        const val COLUMN_RECIPE_INSTRUCTIONS = "recipe_instructions"
-        const val COLUMN_RECIPE_CALORIES = "recipe_calories"
-        const val COLUMN_RECIPE_NUTRITION_FACTS = "recipe_nutrition_facts"
+        // ------------------- 북마크 / 저장된 레시피 테이블 -------------------
+        const val TABLE_SAVED_RECIPES = "SavedRecipes"
+        const val COLUMN_SAVED_ID = "id"
+        const val COLUMN_SAVED_NAME = "recipeName"
+        const val COLUMN_SAVED_TIME = "cookingTime"
+        const val COLUMN_SAVED_INGREDIENTS = "ingredients"
+        const val COLUMN_SAVED_TEXT = "recipeText"
+        const val COLUMN_SAVED_CALORIE = "calorie"
+        const val COLUMN_SAVED_NUTRIENT = "nutrient"
+        const val COLUMN_SAVED_DATE = "saveDate" // 새로 추가된 저장 날짜
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
+        // 1) Ingredients
         val createIngredientsTable = """
             CREATE TABLE $TABLE_INGREDIENTS (
                 $COLUMN_INGREDIENT_ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 $COLUMN_INGREDIENT_NAME TEXT NOT NULL UNIQUE
             )
-        """
+        """.trimIndent()
         db?.execSQL(createIngredientsTable)
 
+        // 2) Fridge
         val createFridgeTable = """
             CREATE TABLE $TABLE_FRIDGE (
                 $COLUMN_FRIDGE_ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -60,67 +60,41 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 $COLUMN_ADDED_DATE DATE DEFAULT (DATE('now')),
                 FOREIGN KEY ($COLUMN_INGREDIENT_ID) REFERENCES $TABLE_INGREDIENTS($COLUMN_INGREDIENT_ID) ON DELETE CASCADE
             )
-        """
+        """.trimIndent()
         db?.execSQL(createFridgeTable)
 
-        // 알레르기 테이블 생성
+        // 3) Allergies
         val createAllergiesTable = """
             CREATE TABLE $TABLE_ALLERGIES (
                 $COLUMN_ALLERGY_ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 $COLUMN_ALLERGY_NAME TEXT NOT NULL UNIQUE
             )
-        """
+        """.trimIndent()
         db?.execSQL(createAllergiesTable)
 
-        //레시피 추가
-        val createRecipeTable = """
-            CREATE TABLE ${TABLE_RECIPE} (
-            ${COLUMN_RECIPE_ID} INTEGER PRIMARY KEY AUTOINCREMENT,
-            ${COLUMN_RECIPE_NAME} TEXT NOT NULL,
-            ${COLUMN_RECIPE_ADDED_DATE} DATE DEFAULT (DATE('now'))
+        // 4) SavedRecipes (+ saveDate)
+        val createSavedRecipesTable = """
+            CREATE TABLE $TABLE_SAVED_RECIPES (
+                $COLUMN_SAVED_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                $COLUMN_SAVED_NAME TEXT,
+                $COLUMN_SAVED_TIME TEXT,
+                $COLUMN_SAVED_INGREDIENTS TEXT,
+                $COLUMN_SAVED_TEXT TEXT,
+                $COLUMN_SAVED_CALORIE TEXT,
+                $COLUMN_SAVED_NUTRIENT TEXT,
+                $COLUMN_SAVED_DATE TEXT
             )
-        """
-        db?.execSQL(createRecipeTable)
-
-        val createRecipeDetailTable = """
-            CREATE TABLE ${TABLE_RECIPE_DETAILS} (
-            ${COLUMN_RECIPE_ID} INTEGER,
-            ${COLUMN_RECIPE_COOKINGTIME} INTEGER,
-            ${COLUMN_RECIPE_INSTRUCTIONS} TEXT,
-            ${COLUMN_RECIPE_CALORIES} INTEGER,
-            ${COLUMN_RECIPE_NUTRITION_FACTS} TEXT,
-            FOREIGN KEY(${COLUMN_RECIPE_ID}) REFERENCES ${TABLE_RECIPE}(${COLUMN_RECIPE_ID})
-            )
-        """
-        db?.execSQL(createRecipeDetailTable)
-
-        // 예시 데이터 삽입 ---> 여기 꼭빼기!!!!!!
-        val insertRecipe = """
-        INSERT INTO $TABLE_RECIPE ($COLUMN_RECIPE_NAME)
-        VALUES ('Tomato Salad'), ('Cucumber Soup')
-    """
-        db?.execSQL(insertRecipe)
-
-        val insertRecipeDetails = """
-        INSERT INTO $TABLE_RECIPE_DETAILS ($COLUMN_RECIPE_ID, $COLUMN_RECIPE_COOKINGTIME, $COLUMN_RECIPE_INSTRUCTIONS, $COLUMN_RECIPE_CALORIES, $COLUMN_RECIPE_NUTRITION_FACTS)
-        VALUES (1, 15, 'Mix all ingredients and serve', 200, 'Vitamins, Antioxidants'),
-               (2, 20, 'Boil and blend cucumber', 150, 'Vitamin C, Potassium')
-    """
-        db?.execSQL(insertRecipeDetails)
-
-
+        """.trimIndent()
+        db?.execSQL(createSavedRecipesTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        // 버전이 올라가면 기존 테이블 삭제 후 재생성
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_FRIDGE")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_INGREDIENTS")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_ALLERGIES")
-        db?.execSQL("DROP TABLE IF EXISTS $TABLE_RECIPE")
-        db?.execSQL("DROP TABLE IF EXISTS $TABLE_RECIPE_DETAILS")
+        db?.execSQL("DROP TABLE IF EXISTS $TABLE_SAVED_RECIPES")
         onCreate(db)
     }
-
 
     // -------------------------- 냉장고 관련 메서드 --------------------------
     fun insertIngredient(name: String): Long {
@@ -128,12 +102,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val values = ContentValues().apply {
             put(COLUMN_INGREDIENT_NAME, name)
         }
-        return db.insertWithOnConflict(
-            TABLE_INGREDIENTS,
-            null,
-            values,
-            SQLiteDatabase.CONFLICT_IGNORE
-        )
+        return db.insertWithOnConflict(TABLE_INGREDIENTS, null, values, SQLiteDatabase.CONFLICT_IGNORE)
     }
 
     fun addToFridge(ingredientName: String, quantity: String): Long {
@@ -164,7 +133,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             FROM $TABLE_FRIDGE f
             JOIN $TABLE_INGREDIENTS i
             ON f.$COLUMN_INGREDIENT_ID = i.$COLUMN_INGREDIENT_ID
-        """
+        """.trimIndent()
         val cursor = db.rawQuery(query, null)
         val ingredients = mutableListOf<Ingredient>()
 
@@ -188,7 +157,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             JOIN $TABLE_INGREDIENTS i
             ON f.$COLUMN_INGREDIENT_ID = i.$COLUMN_INGREDIENT_ID
             WHERE i.$COLUMN_INGREDIENT_NAME LIKE ?
-        """
+        """.trimIndent()
         val cursor = db.rawQuery(sqlQuery, arrayOf("%$query%"))
         val results = mutableListOf<Ingredient>()
 
@@ -227,26 +196,14 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     // -------------------------- 알레르기 관련 메서드 --------------------------
-    /**
-     * 알레르기 테이블에 새로운 항목 추가
-     * 이미 등록된 알레르기인 경우, UNIQUE 제약으로 Insert가 무시될 수 있으므로 CONFLICT_IGNORE 사용
-     */
     fun insertAllergy(allergyName: String): Long {
         val db = writableDatabase
         val values = ContentValues().apply {
             put(COLUMN_ALLERGY_NAME, allergyName)
         }
-        return db.insertWithOnConflict(
-            TABLE_ALLERGIES,
-            null,
-            values,
-            SQLiteDatabase.CONFLICT_IGNORE
-        )
+        return db.insertWithOnConflict(TABLE_ALLERGIES, null, values, SQLiteDatabase.CONFLICT_IGNORE)
     }
 
-    /**
-     * 저장된 모든 알레르기 목록 조회
-     */
     fun getAllAllergies(): List<String> {
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT $COLUMN_ALLERGY_NAME FROM $TABLE_ALLERGIES", null)
@@ -254,8 +211,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         if (cursor.moveToFirst()) {
             do {
-                val allergyName =
-                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ALLERGY_NAME))
+                val allergyName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ALLERGY_NAME))
                 allergies.add(allergyName)
             } while (cursor.moveToNext())
         }
@@ -263,9 +219,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return allergies
     }
 
-    /**
-     * 특정 알레르기 항목 삭제
-     */
     fun deleteAllergy(allergyName: String): Int {
         val db = writableDatabase
         return db.delete(
@@ -275,35 +228,87 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         )
     }
 
-
-    // -------------------------- 레시피 상세 등록 관련 메서드 --------------------------
-    //데이터 추가 확인 코드
-    fun addRecipe(recipeName: String): Long {
-        val db = this.writableDatabase
-        val values = ContentValues().apply {
-            put(COLUMN_RECIPE_NAME, recipeName)
-        }
-        return db.insert(TABLE_RECIPE, null, values)
-    }
-
-    fun addRecipeDetails(
-        recipeId: Long,
-        cookingTime: Int,
-        instructions: String,
-        calories: Int,
-        nutritionFacts: String
+    // -------------------------- SavedRecipes (북마크) 관련 메서드 --------------------------
+    /**
+     * 레시피를 SavedRecipes 테이블에 저장 (날짜 포함)
+     */
+    fun insertSavedRecipe(
+        recipeName: String,
+        cookingTime: String,
+        ingredients: String,
+        recipeText: String,
+        calorie: String,
+        nutrient: String,
+        saveDate: String  // 새로 추가
     ): Long {
-        val db = this.writableDatabase
+        val db = writableDatabase
         val values = ContentValues().apply {
-            put(COLUMN_RECIPE_ID, recipeId)
-            put(COLUMN_RECIPE_COOKINGTIME, cookingTime)
-            put(COLUMN_RECIPE_INSTRUCTIONS, instructions)
-            put(COLUMN_RECIPE_CALORIES, calories)
-            put(COLUMN_RECIPE_NUTRITION_FACTS, nutritionFacts)
+            put(COLUMN_SAVED_NAME, recipeName)
+            put(COLUMN_SAVED_TIME, cookingTime)
+            put(COLUMN_SAVED_INGREDIENTS, ingredients)
+            put(COLUMN_SAVED_TEXT, recipeText)
+            put(COLUMN_SAVED_CALORIE, calorie)
+            put(COLUMN_SAVED_NUTRIENT, nutrient)
+            put(COLUMN_SAVED_DATE, saveDate)
         }
-        return db.insert(TABLE_RECIPE_DETAILS, null, values)
+        return db.insert(TABLE_SAVED_RECIPES, null, values)
     }
 
+    /**
+     * 이미 북마크된 레시피인지 확인 (이름 기준)
+     */
+    fun isRecipeBookmarked(recipeName: String): Boolean {
+        val db = readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT $COLUMN_SAVED_ID FROM $TABLE_SAVED_RECIPES WHERE $COLUMN_SAVED_NAME = ?",
+            arrayOf(recipeName)
+        )
+        val exists = cursor.moveToFirst()
+        cursor.close()
+        return exists
+    }
 
+    /**
+     * DB에서 레시피 삭제 (북마크 해제)
+     */
+    fun deleteSavedRecipe(recipeName: String): Int {
+        val db = writableDatabase
+        return db.delete(
+            TABLE_SAVED_RECIPES,
+            "$COLUMN_SAVED_NAME = ?",
+            arrayOf(recipeName)
+        )
+    }
 
+    /**
+     * 레시피 정보 수정 (제목, 재료, etc.) - 레시피 상세 페이지에서 수정 가능
+     * @param originalName 수정 전 레시피 이름 (혹은 ID가 있다면 ID로 구분 권장)
+     */
+    fun updateSavedRecipe(
+        originalName: String,
+        newName: String,
+        cookingTime: String,
+        ingredients: String,
+        recipeText: String,
+        calorie: String,
+        nutrient: String,
+        newSaveDate: String // 편집 시점에 날짜 업데이트?
+    ): Int {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_SAVED_NAME, newName)
+            put(COLUMN_SAVED_TIME, cookingTime)
+            put(COLUMN_SAVED_INGREDIENTS, ingredients)
+            put(COLUMN_SAVED_TEXT, recipeText)
+            put(COLUMN_SAVED_CALORIE, calorie)
+            put(COLUMN_SAVED_NUTRIENT, nutrient)
+            put(COLUMN_SAVED_DATE, newSaveDate)
+        }
+        return db.update(
+            TABLE_SAVED_RECIPES,
+            values,
+            "$COLUMN_SAVED_NAME = ?", // originalName 기준
+            arrayOf(originalName)
+        )
+    }
 }
