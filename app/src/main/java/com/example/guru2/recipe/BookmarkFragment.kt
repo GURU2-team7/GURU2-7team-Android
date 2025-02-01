@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.guru2.MainActivity
 import com.example.guru2.R
 import com.example.guru2.databinding.FragmentBookmarkBinding
+import com.example.guru2.databinding.ItemRecipeBinding
 import com.example.guru2.db.DatabaseHelper
 
 class BookmarkFragment : Fragment() {
@@ -44,7 +45,7 @@ class BookmarkFragment : Fragment() {
         }
 
         // 레시피 데이터를 가져와서 동적으로 추가
-        loadRecipeData()
+        loadSavedRecipes()
 
         return binding.root
     }
@@ -59,53 +60,54 @@ class BookmarkFragment : Fragment() {
         _binding = null
     }
 
-    // DB에서 레시피 데이터를 가져오고 LinearLayout에 동적으로 추가
-    private fun loadRecipeData() {
+    // DB에서 저장된 레시피 데이터를 가져와 동적으로 추가하는 함수
+    private fun loadSavedRecipes() {
         val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery(
+            """SELECT ${DatabaseHelper.COLUMN_SAVED_ID}, ${DatabaseHelper.COLUMN_SAVED_NAME}, 
+                      ${DatabaseHelper.COLUMN_SAVED_TIME}, ${DatabaseHelper.COLUMN_SAVED_DATE} 
+               FROM ${DatabaseHelper.TABLE_SAVED_RECIPES}
+               ORDER BY ${DatabaseHelper.COLUMN_SAVED_DATE} DESC""", null
+        )
 
-        // 테이블을 JOIN하여 레시피 정보와 쿠킹타임을 가져오는 쿼리
-        val cursor = db.rawQuery("""
-            SELECT r.${DatabaseHelper.COLUMN_RECIPE_ID}, r.${DatabaseHelper.COLUMN_RECIPE_NAME}, r.${DatabaseHelper.COLUMN_RECIPE_ADDED_DATE}, 
-                   d.${DatabaseHelper.COLUMN_RECIPE_COOKINGTIME}
-            FROM ${DatabaseHelper.TABLE_RECIPE} r
-            LEFT JOIN ${DatabaseHelper.TABLE_RECIPE_DETAILS} d 
-            ON r.${DatabaseHelper.COLUMN_RECIPE_ID} = d.${DatabaseHelper.COLUMN_RECIPE_ID}
-        """, null)
-
-        if (cursor != null && cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             do {
-                val recipeId = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_RECIPE_ID))
-                val recipeName = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_RECIPE_NAME))
-                val addedDate = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_RECIPE_ADDED_DATE))
-                val cookingTime = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_RECIPE_COOKINGTIME))
+                val recipeId =
+                    cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_SAVED_ID))
+                val recipeName =
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_SAVED_NAME))
+                val cookingTime =
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_SAVED_TIME))
+                val saveDate =
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_SAVED_DATE))
 
-                // item_recipe.xml을 동적으로 inflate
-                val itemView = layoutInflater.inflate(R.layout.item_recipe, binding.linearLayoutList, false)
+                // item_recipe.xml을 inflate (ViewBinding 사용)
+                val itemBinding =
+                    ItemRecipeBinding.inflate(layoutInflater, binding.linearLayoutList, false)
 
-                // 레시피 정보를 itemView에 바인딩
-                val recipeNameTextView: TextView = itemView.findViewById(R.id.textViewRecipeName)
-                val dateTextView: TextView = itemView.findViewById(R.id.textViewDate)
-                val cookingTimeTextView: TextView = itemView.findViewById(R.id.cookingHour)
+                // 레시피 정보를 바인딩
+                itemBinding.textViewRecipeName.text = recipeName
+                itemBinding.textViewDate.text = saveDate
+                itemBinding.cookingHour.text = "${cookingTime}M"
 
-                // 레시피 이름, 등록 날짜, 쿠킹타임을 설정
-                recipeNameTextView.text = recipeName
-                dateTextView.text = addedDate
-                cookingTimeTextView.text = "${cookingTime}M"  // "30M" 형식으로 표시
+                // 레시피 클릭 시 상세 페이지로 이동 (Fragment로 이동)
+                itemBinding.root.setOnClickListener {
+                    val fragment = RecipeDetailFragment().apply {
+                        arguments = Bundle().apply {
+                            putInt("RECIPE_ID", recipeId)
+                        }
+                    }
+                    navigateToFragment(fragment)
+                }
 
-                // 레시피 클릭 시 상세 페이지로 이동 ==> 여기 수정해야함!!!!!
-//                itemView.setOnClickListener {
-//                    val intent = Intent(requireContext(), RecipedetailFragment::class.java)
-//                    intent.putExtra("RECIPE_ID", recipeId)  // 클릭한 레시피의 ID 전달
-//                    startActivity(intent)
-//                }
-
-                // LinearLayout에 itemView 추가
-                binding.linearLayoutList.addView(itemView)
+                // LinearLayout에 아이템 추가
+                binding.linearLayoutList.addView(itemBinding.root)
 
             } while (cursor.moveToNext())
         } else {
-            Toast.makeText(requireContext(), "레시피를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "저장된 레시피가 없습니다.", Toast.LENGTH_SHORT).show()
         }
-        cursor?.close()
+
+        cursor.close()
     }
 }
