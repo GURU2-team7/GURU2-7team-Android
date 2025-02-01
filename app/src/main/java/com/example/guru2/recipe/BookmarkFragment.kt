@@ -30,11 +30,6 @@ class BookmarkFragment : Fragment() {
 
         dbHelper = DatabaseHelper(requireContext())
 
-        // "레시피 상세 보기" 버튼 클릭 시 RecipeDetailFragment로 이동
-        binding.buttonRecipeDetail.setOnClickListener {
-            navigateToFragment(RecipeDetailFragment())
-        }
-
         // ImageView 클릭 리스너 설정
         val backArrowButton = binding.backArrow  // FragmentBookmarkBinding을 통해 ImageView 찾기
         backArrowButton.setOnClickListener {
