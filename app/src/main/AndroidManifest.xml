@@ -24,7 +24,7 @@
             android:name=".recipe.AskRecipeActivity"
             android:exported="true" />
         <activity
-            android:name=".SavedRecipeActivity"
+            android:name=".recipe.SavedRecipeActivity"
             android:exported="false" />
         <activity
             android:name=".allergy.AllergyActivity"
