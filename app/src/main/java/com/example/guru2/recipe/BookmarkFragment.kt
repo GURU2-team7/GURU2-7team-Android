@@ -83,7 +83,7 @@ class BookmarkFragment : Fragment() {
                 // 레시피 정보를 바인딩
                 itemBinding.textViewRecipeName.text = recipeName
                 itemBinding.textViewDate.text = saveDate
-                itemBinding.cookingHour.text = "${cookingTime}M"
+                itemBinding.cookingHour.text = "${cookingTime}"
 
                 // 레시피 클릭 시 상세 페이지로 이동 (Fragment로 이동)
                 itemBinding.root.setOnClickListener {
