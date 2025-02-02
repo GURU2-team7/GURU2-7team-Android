@@ -281,8 +281,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     /**
-     * 레시피 정보 수정 (제목, 재료, etc.) - 레시피 상세 페이지에서 수정 가능
-     * @param originalName 수정 전 레시피 이름 (혹은 ID가 있다면 ID로 구분 권장)
+     * 레시피 정보 수정 (제목, 재료, etc.)
      */
     fun updateSavedRecipe(
         originalName: String,
@@ -292,7 +291,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         recipeText: String,
         calorie: String,
         nutrient: String,
-        newSaveDate: String // 편집 시점에 날짜 업데이트?
+        newSaveDate: String
     ): Int {
         val db = writableDatabase
         val values = ContentValues().apply {
@@ -307,8 +306,67 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return db.update(
             TABLE_SAVED_RECIPES,
             values,
-            "$COLUMN_SAVED_NAME = ?", // originalName 기준
+            "$COLUMN_SAVED_NAME = ?",
             arrayOf(originalName)
         )
     }
+
+    /**
+     * (추가) ID로 레시피 조회해서 모든 필드 반환
+     * -> Bookmark 페이지에서 id만 넘기고, 상세 페이지에서 이 메서드로 전체 호출
+     */
+    fun getSavedRecipeById(recipeId: Int): SavedRecipe? {
+        val db = readableDatabase
+        val query = """
+            SELECT 
+                $COLUMN_SAVED_NAME,
+                $COLUMN_SAVED_TIME,
+                $COLUMN_SAVED_INGREDIENTS,
+                $COLUMN_SAVED_TEXT,
+                $COLUMN_SAVED_CALORIE,
+                $COLUMN_SAVED_NUTRIENT,
+                $COLUMN_SAVED_DATE
+            FROM $TABLE_SAVED_RECIPES
+            WHERE $COLUMN_SAVED_ID = ?
+        """.trimIndent()
+
+        val cursor = db.rawQuery(query, arrayOf(recipeId.toString()))
+        var result: SavedRecipe? = null
+        if (cursor.moveToFirst()) {
+            val name     = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SAVED_NAME))
+            val time     = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SAVED_TIME))
+            val ing      = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SAVED_INGREDIENTS))
+            val text     = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SAVED_TEXT))
+            val cal      = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SAVED_CALORIE))
+            val nut      = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SAVED_NUTRIENT))
+            val date     = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SAVED_DATE))
+
+            result = SavedRecipe(
+                id           = recipeId,
+                recipeName   = name,
+                cookingTime  = time,
+                ingredients  = ing,
+                recipeText   = text,
+                calorie      = cal,
+                nutrient     = nut,
+                saveDate     = date
+            )
+        }
+        cursor.close()
+        return result
+    }
 }
+
+/**
+ * 데이터 클래스로 저장된 레시피를 모델링
+ */
+data class SavedRecipe(
+    val id: Int,
+    val recipeName: String,
+    val cookingTime: String,
+    val ingredients: String,
+    val recipeText: String,
+    val calorie: String,
+    val nutrient: String,
+    val saveDate: String
+)
