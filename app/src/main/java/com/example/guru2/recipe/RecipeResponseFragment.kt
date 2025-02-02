@@ -132,6 +132,7 @@ class RecipeResponseFragment : Fragment() {
 
             val intent = Intent(requireContext(), TimerActivity::class.java)
             intent.putExtra("timeInMillis", cookingTimeMillis)
+            println("🔥 RecipeResponseFragment - 전달 cookingTimeMillis: $cookingTimeMillis")
             startActivity(intent)
         }
 
