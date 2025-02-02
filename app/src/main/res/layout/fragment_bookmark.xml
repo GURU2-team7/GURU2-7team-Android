@@ -40,7 +40,7 @@
     <!-- 검색/입력 칸 (길게 하나) + 오른쪽에 (⊕) + (돋보기) -->
     <LinearLayout
         android:id="@+id/linearSearchContainer"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:layout_height="48dp"
         android:layout_marginTop="35dp"
         android:layout_marginStart="8dp"
