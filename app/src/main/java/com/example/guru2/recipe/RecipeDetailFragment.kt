@@ -105,18 +105,23 @@ class RecipeDetailFragment : Fragment() {
         }
 
         dropdownTimer.setOnClickListener {
-            // 저장된 레시피의 cookingTime 변수 (예: "20분")를 이용
-            val cookingTimeStr = cookingTime.replace("[^\\d]".toRegex(), "")
-            // 숫자 변환 실패 시 기본값 15분 사용
-            val cookingTimeMinutes = cookingTimeStr.toLongOrNull() ?: 15L
-            // 밀리초로 변환
-            val cookingTimeMillis = cookingTimeMinutes * 60 * 1000
+            val cookingTimeStr = cookingTime.replace("[^\\d]".toRegex(), "") // 숫자만 추출
+            val cookingTimeMinutes = cookingTimeStr.toLongOrNull() ?: 15L // 변환 실패 시 기본값 15
+            val cookingTimeMillis = cookingTimeMinutes * 60 * 1000 // 밀리초 변환
 
-            // TimerFragment로 Intent를 통해 데이터 전달
-            val intent = Intent(requireContext(), TimerActivity::class.java)
-            intent.putExtra("timeInMillis", cookingTimeMillis)
+            // ✅ `cookingTimeMillis` 값이 0 이하이면 기본값을 설정하여 예외 방지
+            if (cookingTimeMillis <= 0) {
+                Toast.makeText(requireContext(), "타이머 설정에 문제가 있습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // ✅ `TimerActivity`로 안전하게 이동
+            val intent = Intent(requireContext(), TimerActivity::class.java).apply {
+                putExtra("timeInMillis", cookingTimeMillis)
+            }
             startActivity(intent)
         }
+
 
 
         // 2) UI에 값 표시

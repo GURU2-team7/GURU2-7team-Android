@@ -2,159 +2,127 @@ package com.example.guru2.timer
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
-import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.guru2.R
+import java.util.concurrent.TimeUnit
 
 class TimerActivity : AppCompatActivity() {
 
+    private var timeCountInMilliSeconds: Long = 90 * 1000 // 기본값 90초
+    private var timerStatus = TimerStatus.STOPPED
+
+    private lateinit var progressBarCircle: ProgressBar
     private lateinit var timerText: TextView
-    private lateinit var progressBar: ProgressBar
     private lateinit var playButton: ImageButton
     private lateinit var pauseButton: ImageButton
     private lateinit var resetButton: ImageButton
+    private lateinit var backButton: ImageView  // ✅ 뒤로가기 버튼 추가
 
     private var countDownTimer: CountDownTimer? = null
-    private var timeLeftInMillis: Long = 90 * 1000 // 기본값 90초
-    private var isTimerRunning = false
-    private var initialTimeMillis: Long = 90 * 1000 // 초기 타이머 값 저장
+
+    private enum class TimerStatus {
+        STARTED, STOPPED
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
 
         // UI 요소 초기화
+        initViews()
+        initListeners()
+
+        // ProgressBar 초기화
+        setProgressBarValues()
+    }
+
+    private fun initViews() {
         timerText = findViewById(R.id.timerText)
-        progressBar = findViewById(R.id.progressBar)
+        progressBarCircle = findViewById(R.id.progressBarCircle)
         playButton = findViewById(R.id.playButton)
         pauseButton = findViewById(R.id.pauseButton)
         resetButton = findViewById(R.id.resetButton)
-
-        // ✅ 순서 변경: indeterminate를 먼저 false로 설정한 후, progressDrawable 적용
-        progressBar.isIndeterminate = false
-        progressBar.progress = 100  // ✅ 초기 진행률 100% 유지
-        progressBar.progressDrawable = resources.getDrawable(R.drawable.circular_progress, null)
-        progressBar.visibility = View.VISIBLE
-
-        val cookingTimeMillis = intent.getLongExtra("timeInMillis", 90 * 1000)
-        if (cookingTimeMillis > 0) {
-            timeLeftInMillis = cookingTimeMillis
-            initialTimeMillis = cookingTimeMillis // 초기값 저장
-        }
-
-        updateTimerText()
-
-        playButton.setOnClickListener {
-            if (!isTimerRunning) {
-                startTimer(timeLeftInMillis)
-            }
-        }
-
-        pauseButton.setOnClickListener {
-            if (isTimerRunning) {
-                pauseTimer()
-            }
-        }
-
-        resetButton.setOnClickListener {
-            resetTimer()
-        }
+        backButton = findViewById(R.id.backArrow) as ImageView // ✅ 뒤로가기 버튼 ID 추가
     }
 
-    private fun startTimer(startTime: Long) {
-        countDownTimer?.cancel()
-        isTimerRunning = true
+    private fun initListeners() {
+        resetButton.setOnClickListener { reset() }
+        playButton.setOnClickListener { startTimer() }
+        pauseButton.setOnClickListener { pauseTimer() }
+        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }  // ✅ 뒤로가기 버튼 클릭 시 이전 화면으로 이동
+    }
 
-        // ✅ ProgressBar가 줄어들지 않는 문제 해결
-        progressBar.isIndeterminate = false  // ✅ indeterminate 해제
-        progressBar.post {
-            progressBar.progressDrawable = resources.getDrawable(R.drawable.circular_progress, null) // ✅ 스타일 적용
-            progressBar.invalidate()  // ✅ 강제 UI 갱신
-            progressBar.requestLayout()  // ✅ 레이아웃 다시 그리기
-        }
+    /**
+     * 타이머 시작
+     */
+    private fun startTimer() {
+        if (timerStatus == TimerStatus.STARTED) return // 이미 실행 중이면 아무 동작 안 함
 
-        countDownTimer = object : CountDownTimer(startTime, 1000) {
+        countDownTimer = object : CountDownTimer(timeCountInMilliSeconds, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                timeLeftInMillis = millisUntilFinished
+                timeCountInMilliSeconds = millisUntilFinished
                 updateTimerText()
-                updateProgressBar() // ✅ 프로그레스 바 업데이트
+                updateProgressBar()
             }
 
             override fun onFinish() {
-                isTimerRunning = false
+                timerStatus = TimerStatus.STOPPED
                 updateTimerText()
-                progressBar.post {
-                    progressBar.progress = 0
-                    progressBar.invalidate()
-                    progressBar.requestLayout()
-                }
+                progressBarCircle.progress = 0
             }
         }.start()
 
-        updateProgressBar()
-        playButton.isEnabled = false
-        pauseButton.isEnabled = true
-        resetButton.isEnabled = true
+        timerStatus = TimerStatus.STARTED
     }
 
-
-
-
+    /**
+     * 타이머 일시정지
+     */
     private fun pauseTimer() {
+        if (timerStatus == TimerStatus.STOPPED) return // 이미 정지 상태면 아무 동작 안 함
+
         countDownTimer?.cancel()
-        isTimerRunning = false
-        playButton.isEnabled = true
-        pauseButton.isEnabled = false
-        resetButton.isEnabled = true
+        timerStatus = TimerStatus.STOPPED
     }
 
-    private fun resetTimer() {
+    /**
+     * 타이머 리셋
+     */
+    private fun reset() {
         countDownTimer?.cancel()
-        timeLeftInMillis = initialTimeMillis
-        isTimerRunning = false
+        timeCountInMilliSeconds = 90 * 1000
+        timerStatus = TimerStatus.STOPPED
         updateTimerText()
-
-        progressBar.isIndeterminate = false  // ✅ indeterminate 제거
-        progressBar.progress = 100  // ✅ 즉시 반영
-
-        progressBar.post {
-            progressBar.invalidate()  // ✅ UI 강제 갱신
-            progressBar.requestLayout()  // ✅ 레이아웃 다시 그리기
-        }
-
-        playButton.isEnabled = true
-        pauseButton.isEnabled = false
-        resetButton.isEnabled = false
-
-        Log.d("ProgressBar", "Reset progress to 100")
+        setProgressBarValues()
     }
 
-
-
+    /**
+     * 타이머 시간 UI 업데이트
+     */
     private fun updateTimerText() {
-        val hours = (timeLeftInMillis / 1000) / 3600
-        val minutes = ((timeLeftInMillis / 1000) % 3600) / 60
-        val seconds = (timeLeftInMillis / 1000) % 60
+        val hours = TimeUnit.MILLISECONDS.toHours(timeCountInMilliSeconds)
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(timeCountInMilliSeconds) % 60
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(timeCountInMilliSeconds) % 60
         timerText.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
     }
 
+    /**
+     * 프로그레스바 업데이트
+     */
     private fun updateProgressBar() {
-        if (isTimerRunning) {
-            val progress = ((timeLeftInMillis.toFloat() / initialTimeMillis.toFloat()) * 100).toInt()
-
-            progressBar.post {
-                progressBar.progress = progress.coerceIn(0, 100)  // ✅ 값 반영
-                progressBar.invalidate()  // ✅ 강제 UI 갱신
-                progressBar.requestLayout()  // ✅ 레이아웃 다시 그리기
-            }
-
-            Log.d("ProgressBar", "Updated progress: $progress")
-        }
+        val progress = ((timeCountInMilliSeconds.toFloat() / 90000) * 100).toInt()
+        progressBarCircle.post { progressBarCircle.progress = progress }
     }
 
-
+    /**
+     * 프로그레스바 초기화
+     */
+    private fun setProgressBarValues() {
+        progressBarCircle.max = 100
+        progressBarCircle.progress = 100
+    }
 }

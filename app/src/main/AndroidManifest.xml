@@ -24,9 +24,6 @@
             android:name=".recipe.AskRecipeActivity"
             android:exported="true" />
         <activity
-            android:name=".recipe.SavedRecipeActivity"
-            android:exported="false" />
-        <activity
             android:name=".allergy.AllergyActivity"
             android:exported="false"
             android:theme="@style/Theme.GURU2.NoActionBar" /> <!-- MainActivity: 기본 액션바(타이틀바) 유지 -->
