@@ -20,7 +20,7 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var playButton: ImageButton
     private lateinit var pauseButton: ImageButton
     private lateinit var resetButton: ImageButton
-    private lateinit var backButton: ImageView  // ✅ 뒤로가기 버튼 추가
+    private lateinit var backButton: ImageView
 
     private var countDownTimer: CountDownTimer? = null
 
@@ -46,14 +46,14 @@ class TimerActivity : AppCompatActivity() {
         playButton = findViewById(R.id.playButton)
         pauseButton = findViewById(R.id.pauseButton)
         resetButton = findViewById(R.id.resetButton)
-        backButton = findViewById(R.id.backArrow) as ImageView // ✅ 뒤로가기 버튼 ID 추가
+        backButton = findViewById(R.id.backArrow) as ImageView
     }
 
     private fun initListeners() {
         resetButton.setOnClickListener { reset() }
         playButton.setOnClickListener { startTimer() }
         pauseButton.setOnClickListener { pauseTimer() }
-        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }  // ✅ 뒤로가기 버튼 클릭 시 이전 화면으로 이동
+        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 
     /**
@@ -104,10 +104,9 @@ class TimerActivity : AppCompatActivity() {
      * 타이머 시간 UI 업데이트
      */
     private fun updateTimerText() {
-        val hours = TimeUnit.MILLISECONDS.toHours(timeCountInMilliSeconds)
         val minutes = TimeUnit.MILLISECONDS.toMinutes(timeCountInMilliSeconds) % 60
         val seconds = TimeUnit.MILLISECONDS.toSeconds(timeCountInMilliSeconds) % 60
-        timerText.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+        timerText.text = String.format("%02d:%02d", minutes, seconds)
     }
 
     /**
