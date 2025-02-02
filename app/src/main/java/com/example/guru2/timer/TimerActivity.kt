@@ -12,7 +12,8 @@ import java.util.concurrent.TimeUnit
 
 class TimerActivity : AppCompatActivity() {
 
-    private var timeCountInMilliSeconds: Long = 90 * 1000 // 기본값 90초
+    private var timeCountInMilliSeconds: Long = 90 * 1000
+    private var initialTimeInMillis: Long = 90 * 1000
     private var timerStatus = TimerStatus.STOPPED
 
     private lateinit var progressBarCircle: ProgressBar
@@ -32,12 +33,19 @@ class TimerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
 
+        // Intent에서 시간 데이터 가져오기
+        intent.getLongExtra("timeInMillis", 90 * 1000).let {
+            timeCountInMilliSeconds = it
+            initialTimeInMillis = it
+        }
+
         // UI 요소 초기화
         initViews()
         initListeners()
 
         // ProgressBar 초기화
         setProgressBarValues()
+        updateTimerText()
     }
 
     private fun initViews() {
@@ -46,7 +54,7 @@ class TimerActivity : AppCompatActivity() {
         playButton = findViewById(R.id.playButton)
         pauseButton = findViewById(R.id.pauseButton)
         resetButton = findViewById(R.id.resetButton)
-        backButton = findViewById(R.id.backArrow) as ImageView
+        backButton = findViewById(R.id.backArrow)
     }
 
     private fun initListeners() {
@@ -56,13 +64,10 @@ class TimerActivity : AppCompatActivity() {
         backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 
-    /**
-     * 타이머 시작
-     */
     private fun startTimer() {
-        if (timerStatus == TimerStatus.STARTED) return // 이미 실행 중이면 아무 동작 안 함
+        if (timerStatus == TimerStatus.STARTED) return
 
-        countDownTimer = object : CountDownTimer(timeCountInMilliSeconds, 1000) {
+        countDownTimer = object : CountDownTimer(timeCountInMilliSeconds, 10) {
             override fun onTick(millisUntilFinished: Long) {
                 timeCountInMilliSeconds = millisUntilFinished
                 updateTimerText()
@@ -73,53 +78,41 @@ class TimerActivity : AppCompatActivity() {
                 timerStatus = TimerStatus.STOPPED
                 updateTimerText()
                 progressBarCircle.progress = 0
+                progressBarCircle.invalidate()
             }
         }.start()
 
         timerStatus = TimerStatus.STARTED
     }
 
-    /**
-     * 타이머 일시정지
-     */
     private fun pauseTimer() {
-        if (timerStatus == TimerStatus.STOPPED) return // 이미 정지 상태면 아무 동작 안 함
-
+        if (timerStatus == TimerStatus.STOPPED) return
         countDownTimer?.cancel()
         timerStatus = TimerStatus.STOPPED
     }
 
-    /**
-     * 타이머 리셋
-     */
     private fun reset() {
         countDownTimer?.cancel()
-        timeCountInMilliSeconds = 90 * 1000
+        timeCountInMilliSeconds = initialTimeInMillis
         timerStatus = TimerStatus.STOPPED
         updateTimerText()
         setProgressBarValues()
     }
 
-    /**
-     * 타이머 시간 UI 업데이트
-     */
     private fun updateTimerText() {
         val minutes = TimeUnit.MILLISECONDS.toMinutes(timeCountInMilliSeconds) % 60
         val seconds = TimeUnit.MILLISECONDS.toSeconds(timeCountInMilliSeconds) % 60
         timerText.text = String.format("%02d:%02d", minutes, seconds)
     }
 
-    /**
-     * 프로그레스바 업데이트
-     */
     private fun updateProgressBar() {
-        val progress = ((timeCountInMilliSeconds.toFloat() / 90000) * 100).toInt()
-        progressBarCircle.post { progressBarCircle.progress = progress }
+        val progress = ((timeCountInMilliSeconds.toFloat() / initialTimeInMillis) * 1000).toInt()
+        progressBarCircle.post {
+            progressBarCircle.progress = progress / 10
+            progressBarCircle.invalidate()
+        }
     }
 
-    /**
-     * 프로그레스바 초기화
-     */
     private fun setProgressBarValues() {
         progressBarCircle.max = 100
         progressBarCircle.progress = 100
