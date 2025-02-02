@@ -1,5 +1,6 @@
 package com.example.guru2.fridge
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.guru2.MainActivity
 import com.example.guru2.databinding.FragmentFridgeBinding
 import com.example.guru2.databinding.ItemIngredientBinding
 import com.example.guru2.db.DatabaseHelper
@@ -38,12 +40,15 @@ class FridgeFragment : Fragment() {
         ingredientList.addAll(dbHelper.getAllFridgeItems())
         refreshList(binding.linearLayoutList, ingredientList)
 
-        // 뒤로가기 아이콘 클릭 시
-        binding.backArrow.setOnClickListener {
-            // Fragment에서 뒤로가기 동작
-            requireActivity().onBackPressed()
-            // 또는 parentFragmentManager.popBackStack() 등 다른 방법 가능
+        // 뒤로가기 아이콘 → MainActivity로
+        val backArrowButton = binding.backArrow
+        backArrowButton.setOnClickListener {
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
+            // 또는 parentFragmentManager.popBackStack() 등 다른 방법 가능
+
 
         // 버튼 동작 설정
         setupButtons()

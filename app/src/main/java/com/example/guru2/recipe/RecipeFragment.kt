@@ -1,9 +1,11 @@
 package com.example.guru2.recipe
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.example.guru2.MainActivity
 import com.example.guru2.R
 import com.example.guru2.databinding.FragmentRecipeBinding
 import com.example.guru2.db.DatabaseHelper
@@ -39,11 +41,14 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             sendSelectedOptions()
         }
 
-        // 뒤로가기 아이콘 클릭 → 이전 화면
-        val backArrowButton = view.findViewById<ImageView>(R.id.backArrow)
+        // 뒤로가기 아이콘 → MainActivity로
+        val backArrowButton = binding.backArrow
         backArrowButton.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        } // 현재 액티비티 종료
+
 
         // 냉장고 DB에서 재료 가져와 체크박스 추가
         loadIngredientsFromFridge()
