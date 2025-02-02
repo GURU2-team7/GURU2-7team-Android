@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
-            android:layout_marginTop="34dp"
+            android:layout_marginTop="48dp"
             android:text="추천 받고자 하는 레시피의 종류를 선택해 주세요."
             android:textSize="18sp" />
 
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="11dp"
             android:gravity="center_horizontal">
 
             <RadioGroup
@@ -183,7 +183,7 @@
             android:layout_height="wrap_content"
             android:text="조리 방식을 선택해 주세요."
             android:textSize="18sp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="22dp"
             android:layout_marginStart="18dp"/>
 
         <!-- 조리방식 버튼 -->
@@ -191,7 +191,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="11dp"
             android:gravity="center_horizontal">
 
             <RadioGroup
@@ -256,7 +256,7 @@
             android:layout_height="wrap_content"
             android:text="사용할 재료를 선택해 주세요."
             android:textSize="18sp"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="19dp"
             android:layout_marginStart="18dp"/>
 
         <!-- 재료 체크 박스 -->
@@ -264,7 +264,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="230dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="-7dp"
             android:padding="16dp"
             android:id="@+id/fragment_container">
 
@@ -344,7 +344,7 @@
             android:layout_height="wrap_content"
             android:text="요리 진행 속도를 선택해 주세요."
             android:textSize="18sp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="18dp"/>
 
         <!-- 요리 진행 라디오 버튼 -->
@@ -352,7 +352,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="14dp"
             android:gravity="center_horizontal">
 
             <RadioGroup
@@ -410,6 +410,7 @@
             android:gravity="center"
             android:padding="16dp"
             android:layout_marginStart="100dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/more_rounded_border"
             >
 
