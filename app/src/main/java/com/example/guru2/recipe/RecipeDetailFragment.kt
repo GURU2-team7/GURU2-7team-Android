@@ -1,5 +1,6 @@
 package com.example.guru2.recipe
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import com.example.guru2.R
 import com.example.guru2.databinding.FragmentRecipeDetailBinding
 import com.example.guru2.db.DatabaseHelper
 import com.example.guru2.db.SavedRecipe
+import com.example.guru2.timer.TimerActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -89,7 +91,20 @@ class RecipeDetailFragment : Fragment() {
             }
         }
         dropdownTimer.setOnClickListener {
-            Toast.makeText(requireContext(), "타이머 페이지로 이동(미구현)", Toast.LENGTH_SHORT).show()
+
+            val cookingTimeStr = savedRecipe!!.cookingTime.replace("[^\\d]".toRegex(), "")
+            val cookingTimeMinutes = cookingTimeStr.toLongOrNull() ?: 15L
+            val cookingTimeMillis = cookingTimeMinutes * 60 * 1000
+
+            if (cookingTimeMillis <= 0) {
+                Toast.makeText(requireContext(), "타이머 설정에 문제가 있습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val intent = Intent(requireContext(), TimerActivity::class.java).apply {
+                putExtra("timeInMillis", cookingTimeMillis)
+            }
+            startActivity(intent)
         }
 
         setupUI()
