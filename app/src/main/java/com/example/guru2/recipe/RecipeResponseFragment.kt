@@ -130,9 +130,6 @@ class RecipeResponseFragment : Fragment() {
             val cookingTimeMinutes = cookingTimeStr.toLongOrNull() ?: 15L
             val cookingTimeMillis = cookingTimeMinutes * 60 * 1000
 
-            // 디버깅 로그 추가
-            println("🔥 RecipeResponseFragment - 전달 cookingTimeMillis: $cookingTimeMillis")
-
             val intent = Intent(requireContext(), TimerActivity::class.java)
             intent.putExtra("timeInMillis", cookingTimeMillis)
             startActivity(intent)
