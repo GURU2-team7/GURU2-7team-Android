@@ -1,5 +1,6 @@
 package com.example.guru2.recipe
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import com.example.guru2.api.RetrofitClient
 import com.example.guru2.api.RetrofitService
 import com.example.guru2.databinding.FragmentReciperesponseBinding
 import com.example.guru2.db.DatabaseHelper
+import com.example.guru2.timer.TimerActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -117,10 +119,21 @@ class RecipeResponseFragment : Fragment() {
             }
         }
 
-        // 타이머 버튼
         dropdownTimer.setOnClickListener {
-            Toast.makeText(requireContext(), "타이머 페이지로 이동합니다.", Toast.LENGTH_SHORT).show()
-            // ex: startActivity(Intent(requireContext(), TimerActivity::class.java))
+            val recipe = currentRecipe
+            if (recipe == null) {
+                Toast.makeText(requireContext(), "레시피 정보가 없습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val cookingTimeStr = recipe.cookingTime.replace("[^\\d]".toRegex(), "")
+            val cookingTimeMinutes = cookingTimeStr.toLongOrNull() ?: 15L
+            val cookingTimeMillis = cookingTimeMinutes * 60 * 1000
+
+            val intent = Intent(requireContext(), TimerActivity::class.java)
+            intent.putExtra("timeInMillis", cookingTimeMillis)
+            println("🔥 RecipeResponseFragment - 전달 cookingTimeMillis: $cookingTimeMillis")
+            startActivity(intent)
         }
 
         // 알레르기 목록 (예시)

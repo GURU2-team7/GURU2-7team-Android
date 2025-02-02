@@ -1,0 +1,108 @@
+<!-- 버튼들을 가로로 균등하게 배치하기 위해 Horizontal Chain을 적용 -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <ImageView
+        android:id="@+id/backArrow"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="44dp"
+        android:contentDescription="Back Arrow"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Timer"
+        android:textColor="#575757"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="32dp"/>
+
+    <ProgressBar
+        android:id="@+id/progressBarCircle"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="380dp"
+        android:layout_height="380dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/drawble_circle_inner"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="100"
+        android:progressDrawable="@drawable/drawble_circle_outer"
+        android:rotation="-90"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        app:layout_constraintBottom_toTopOf="@id/timerText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.4"/>
+
+    <TextView
+        android:id="@+id/timerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="30 : 00"
+        android:textSize="40sp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/progressBarCircle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="20dp"/>
+
+    <!-- 버튼 그룹 -->
+    <ImageButton
+        android:id="@+id/resetButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/timer_reset"
+        android:background="@android:color/white"
+        android:scaleType="centerInside"
+        android:contentDescription="reset"
+        app:layout_constraintTop_toBottomOf="@id/timerText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/playButton"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        android:layout_marginTop="40dp"/>
+
+    <ImageButton
+        android:id="@+id/playButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/timer_play"
+        android:background="@android:color/white"
+        android:scaleType="centerInside"
+        android:contentDescription="play"
+        app:layout_constraintTop_toBottomOf="@id/timerText"
+        app:layout_constraintStart_toEndOf="@id/resetButton"
+        app:layout_constraintEnd_toStartOf="@id/pauseButton"
+        android:layout_marginTop="40dp"/>
+
+    <ImageButton
+        android:id="@+id/pauseButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/timer_pause"
+        android:background="@android:color/white"
+        android:scaleType="centerInside"
+        android:contentDescription="pause"
+        app:layout_constraintTop_toBottomOf="@id/timerText"
+        app:layout_constraintStart_toEndOf="@id/playButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
