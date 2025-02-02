@@ -61,8 +61,11 @@ class TimerActivity : AppCompatActivity() {
         resetButton.setOnClickListener { reset() }
         playButton.setOnClickListener { startTimer() }
         pauseButton.setOnClickListener { pauseTimer() }
-        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+        backButton.setOnClickListener {
+            finish()
+        }
     }
+
 
     private fun startTimer() {
         if (timerStatus == TimerStatus.STARTED) return
