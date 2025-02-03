@@ -22,9 +22,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 타이틀 (스크롤 바깥) -->
-
-    <!-- ScrollView: 타이틀 아래부터 SAVE 버튼 위까지 스크롤 -->
-
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="220dp"
@@ -38,6 +35,7 @@
         app:layout_constraintStart_toEndOf="@id/backArrow"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- ScrollView: 타이틀 아래부터 SAVE 버튼 위까지 스크롤 -->
     <ScrollView
         android:id="@+id/scrollViewContent"
         android:layout_width="match_parent"
@@ -68,8 +66,8 @@
                 android:background="@drawable/rounded_border_white"
                 android:padding="10dp"
                 android:layout_marginTop="16dp"
-                android:clickable="false"
-                android:focusable="false">
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:id="@+id/toggleDairy"
@@ -106,8 +104,8 @@
                 android:background="@drawable/rounded_border_white"
                 android:padding="10dp"
                 android:layout_marginTop="20dp"
-                android:clickable="false"
-                android:focusable="false">
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:id="@+id/toggleNuts"
@@ -143,8 +141,8 @@
                 android:background="@drawable/rounded_border_white"
                 android:padding="10dp"
                 android:layout_marginTop="20dp"
-                android:clickable="false"
-                android:focusable="false">
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:id="@+id/toggleSeafood"
@@ -180,8 +178,8 @@
                 android:background="@drawable/rounded_border_white"
                 android:padding="10dp"
                 android:layout_marginTop="20dp"
-                android:clickable="false"
-                android:focusable="false">
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:id="@+id/toggleMeat"
@@ -217,8 +215,8 @@
                 android:background="@drawable/rounded_border_white"
                 android:padding="10dp"
                 android:layout_marginTop="20dp"
-                android:clickable="false"
-                android:focusable="false">
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:id="@+id/toggleFruitVeg"
@@ -293,8 +291,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     android:background="@null"
-                    android:hint="입력해 주세요"
-                    android:textColorHint="#9E9E9E"
+                    android:maxLength="15"
                     android:padding="12dp"
                     android:textColor="#000000"
                     android:textSize="15sp" />
@@ -322,23 +319,20 @@
                     app:singleLine="false" />
             </LinearLayout>
 
+            <!-- SAVE 버튼 -->
+            <Button
+                android:id="@+id/buttonSave"
+                android:layout_width="220dp"
+                android:layout_height="60dp"
+                android:background="@drawable/more_rounded_border"
+                app:backgroundTint="@null"
+                android:padding="12dp"
+                android:text="SAVE"
+                android:textColor="#9E9E9E"
+                android:textSize="22sp"
+                android:textStyle="normal"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal" />
         </LinearLayout>
     </ScrollView>
-
-    <!-- SAVE 버튼 (화면 하단 고정) -->
-    <Button
-        android:id="@+id/buttonSave"
-        android:layout_width="220dp"
-        android:layout_height="60dp"
-        android:background="@drawable/more_rounded_border"
-        app:backgroundTint="@null"
-        android:padding="12dp"
-        android:text="SAVE"
-        android:textColor="#9E9E9E"
-        android:textSize="22sp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

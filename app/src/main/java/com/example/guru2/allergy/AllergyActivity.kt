@@ -49,11 +49,11 @@ class AllergyActivity : AppCompatActivity() {
         }
 
         // 3) 카테고리별 리스트뷰 연결
-        setupListView(binding.toggleDairy, binding.listViewDairy, dairyList)
-        setupListView(binding.toggleNuts, binding.listViewNuts, nutsList)
-        setupListView(binding.toggleSeafood, binding.listViewSeafood, seafoodList)
-        setupListView(binding.toggleMeat, binding.listViewMeat, meatList)
-        setupListView(binding.toggleFruitVeg, binding.listViewFruitVeg, fruitVegList)
+        setupListView(binding.linearLayoutDairy, binding.toggleDairy, binding.listViewDairy, dairyList)
+        setupListView(binding.linearLayoutNuts, binding.toggleNuts, binding.listViewNuts, nutsList)
+        setupListView(binding.linearLayoutSeafood, binding.toggleSeafood, binding.listViewSeafood, seafoodList)
+        setupListView(binding.linearLayoutMeat, binding.toggleMeat, binding.listViewMeat, meatList)
+        setupListView(binding.linearLayoutFruitVeg, binding.toggleFruitVeg, binding.listViewFruitVeg, fruitVegList)
 
         // 4) 기타 항목 등록 버튼
         binding.buttonRegister.setOnClickListener {
@@ -90,12 +90,12 @@ class AllergyActivity : AppCompatActivity() {
      * - 토글을 누르면 ListView를 열고 닫는다.
      * - 클릭 이벤트는 setOnItemClickListener를 통해 처리한다.
      */
-    private fun setupListView(toggle: View, listView: ListView, items: List<String>) {
+    private fun setupListView(linearLayout: View, toggle: View, listView: ListView, items: List<String>) {
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
         listView.adapter = adapter
 
-        // 토글 열고 닫기
-        toggle.setOnClickListener {
+        // 토글 열고 닫기 (전체 영역 클릭 가능)
+        linearLayout.setOnClickListener {
             if (listView.visibility == View.GONE) {
                 listView.visibility = View.VISIBLE
                 (toggle as? ImageView)?.setImageResource(R.drawable.toggle_open)
