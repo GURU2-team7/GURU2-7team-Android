@@ -241,6 +241,7 @@ class RecipeResponseFragment : Fragment() {
         calLayout.setPadding(30, 20, 30, 20)
         val calText = TextView(requireContext()).apply {
             text = recipe.calorie
+            text = "${recipe.calorie} kcal"
             textSize = 15f
         }
         calLayout.addView(calText)
